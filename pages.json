@@ -18,12 +18,6 @@
 			}
 		},
 		{
-			"path": "pages/article/details",
-			"style": {
-				"navigationBarTitleText": "详情"
-			}
-		},
-		{
 			"path": "pages/article/content",
 			"style": {
 				"navigationBarTitleText": "详情"
