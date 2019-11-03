@@ -1,0 +1,74 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "项目标题",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+		},
+		{
+			"path": "pages/user/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/article/details",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		},
+		{
+			"path": "pages/article/content",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		},
+		{
+			"path": "pages/public/login",
+			"style": {
+				"navigationBarTitleText": "微信授权"
+			}
+		}
+	],
+	"condition": { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [{
+			"name": "",
+			"path": "",
+			"query": ""
+		}]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "项目标题",
+		"navigationBarBackgroundColor": "#ffffff",
+		// "navigationStyle": "custom",
+		"backgroundColor": "#ffffff"
+	},
+	"tabBar": {
+		"color": "#3D484D",
+		"selectedColor": "#E79A15",
+		"borderStyle": "white",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "/static/images/nav/home-icon.png",
+				"selectedIconPath": "/static/images/nav/home-icon-cur.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/stroke/index",
+				"iconPath": "/static/images/nav/xc-icon.png",
+				"selectedIconPath": "/static/images/nav/xc-icon-cur.png",
+				"text": "行程"
+			}
+		]
+	},
+	"usingComponts": true
+}
