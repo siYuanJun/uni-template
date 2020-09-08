@@ -50,19 +50,7 @@
 		"selectedColor": "#E79A15",
 		"borderStyle": "white",
 		"backgroundColor": "#ffffff",
-		"list": [{
-				"pagePath": "pages/index/index",
-				"iconPath": "/static/images/nav/home-icon.png",
-				"selectedIconPath": "/static/images/nav/home-icon-cur.png",
-				"text": "首页"
-			},
-			{
-				"pagePath": "pages/stroke/index",
-				"iconPath": "/static/images/nav/xc-icon.png",
-				"selectedIconPath": "/static/images/nav/xc-icon-cur.png",
-				"text": "行程"
-			}
-		]
+		"list": []
 	},
 	"usingComponts": true
 }

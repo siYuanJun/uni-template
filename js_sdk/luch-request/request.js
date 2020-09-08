@@ -9,10 +9,10 @@
  */
 export default class Request {
   config = {
-    baseUrl: 'https://abc.lvtcn.com/api/xcx',
+    baseUrl: '',
     header: {
-      // 'content-type': 'application/x-www-form-urlencoded'
-      'content-type': 'application/json'
+      'content-type': 'application/x-www-form-urlencoded'
+      // 'content-type': 'application/json'
     },
     method: 'GET',
     dataType: 'json',
