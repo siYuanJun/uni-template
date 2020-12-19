@@ -28,14 +28,15 @@ export default {
 			} else {
 				that.parmform.page = 1;
 			}
-			let data = {}
+			let data = {}, formdata = {}
 			data.openid = uni.getStorageSync('openid');
 			data.token = that.webkey
 			data.page = that.parmform.page
 			data.formdata = that.parmform
+			// formdata = {...data, ...that.parmform}
 			that.http.post(url, data).then(res => {
 				res = res.data
-				if (res.data) {
+				if (res.data.length) {
 					if (type === 'add') {
 						// 数据递增使用 forEach
 						res.data.forEach(item => {
@@ -47,9 +48,9 @@ export default {
 					// 处理数据显示
 					that.parmloca.loadMoreStatus = res.data.length < 10 ? 2 : 0;
 				} else {
-					if (res.message) {
+					if (res.msg) {
 						uni.showToast({
-							title: res.message,
+							title: res.msg,
 							icon: 'none',
 							duration: 2000
 						});

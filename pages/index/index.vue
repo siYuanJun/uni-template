@@ -1,32 +1,61 @@
+<style lang="less">
+	.grid {
+		.img {
+			height: 300rpx;
+		}
+	}
+	.about-desc {
+		position: relative;
+		z-index: 1;
+		color: #c8c8c8;
+		height: 300rpx;
+		background: url(http://www.bjxcsy.com/promotion/images/3.png) no-repeat center;
+		background-size: 100% auto;
+	}
+	.banner {
+		image {
+			width:95%;
+		}
+	}
+	.logo {
+		image {
+			width: 90px;
+		}
+	}
+</style>
 <template>
 	<view class="content">
-		<!-- 下拉刷新组件 -->
-		<view class="newlist">
-			<view class="block" v-for="(item,index) in pram_data" :key="index">
+		<view class="text-center padding-top-xl banner">
+			<image :src="this.resostatic + '/1.png'" mode="widthFix"></image>
+		</view>
+		<view class="text-center logo margin-top">
+			<image :src="this.resostatic + '/2.png'" mode="widthFix"></image>
+		</view>
+		<view class="text-center text-xxl text-white margin-top-xs">
+			2008年创立于北京
+		</view>
+		<view class="text-center text-sm text-white text-height about-desc padding">
+			北京星诚视野网络科技有限公司简称（星诚视野）于2008年成立，12年来，我们一直专注于高端网站建设、APP开发、微信开发、WEB应用系统开发和服务。
+		</view>
+		<view class="grid col-1 margin-top-xxl">
+			<view class="block margin-top" v-for="(item,index) in parmdata.list" :key="index">
 				<navigator :url="'../article/details?id='+ item.path" class='block-item'>
-					<view class="name">{{item.title}}</view>
 					<view class="img" :style="'background: url('+item.image+') no-repeat center; background-size: cover;'"></view>
 				</navigator>
 			</view>
-			<!-- 上滑加载更多组件 -->
-			<mix-load-more :status="parmloca.loadMoreStatus"></mix-load-more>
 		</view>
 	</view>
 </template>
 
 <script>
-	import mixLoadMore from '@/components/mix-load-more/mix-load-more';
 	import indexMixin from '@/common/mixinPull'
 	export default {
-		components: {
-			mixLoadMore
-		},
+		components: {},
 		mixins: [indexMixin],
 		data() {
 			return {
-				api_url: 'https://api.apiopen.top/getWangYiNews',
+				api_url: "&c=Promotion&a=index",
 				parmdata: {
-					data: {}
 				},
 				parmform: {
 					page: 1
@@ -36,22 +65,15 @@
 		},
 		onLoad() {
 			let that = this
-			that.ajaxRequest(that, 'refresh')
-		},
-		onPullDownRefresh() {
-			console.log('refresh');
-			let that = this
-			that.ajaxRequest(that, 'refresh')
+			that.ajaxRequest(that, that.api_url)
 		},
 		methods: {
+			onPullDownRefresh() {
+				console.log('refresh')
+			},
 			onReachBottom() {
 				console.log('onReachBottom')
-				let that = this
-				that.ajaxRequest(that, 'add')
 			},
 		}
 	}
 </script>
-
-<style lang="less">
-</style>

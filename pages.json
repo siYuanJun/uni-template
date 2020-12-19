@@ -50,6 +50,7 @@
 		"selectedColor": "#E79A15",
 		"borderStyle": "white",
 		"backgroundColor": "#ffffff",
+<<<<<<< HEAD
 		"list": [{
 				"pagePath": "pages/index/index",
 				"iconPath": "/static/images/nav/home-icon.png",
@@ -63,6 +64,9 @@
 				"text": "关于"
 			}
 		]
+=======
+		"list": []
+>>>>>>> 10aa1ed7c014461a388e5cd6917f29623f981ec8
 	},
 	"usingComponts": true
 }
