@@ -8,7 +8,9 @@ Vue.prototype.webkey = '09de36a34629cf351d598a28a202e4dd'
 
 // 网络请求
 import Request from '@/js_sdk/luch-request/request'
-Vue.prototype.http = new Request();
+var http = new Request();
+http.config.baseUrl = ""
+Vue.prototype.http = http;
 
 // 顶部自定义导航
 import cuCustom from '@/components/colorui/components/cu-custom'

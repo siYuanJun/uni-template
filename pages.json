@@ -57,10 +57,10 @@
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/stroke/index",
+				"pagePath": "pages/article/content",
 				"iconPath": "/static/images/nav/xc-icon.png",
 				"selectedIconPath": "/static/images/nav/xc-icon-cur.png",
-				"text": "行程"
+				"text": "关于"
 			}
 		]
 	},
