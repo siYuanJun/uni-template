@@ -25,6 +25,10 @@ Vue.component('cuCustom', cuCustom)
 //     key: qqmapKey // 必填
 // });
 
+// 全局分享
+import share from '@/common/mixinShare.js'
+Vue.mixin(share)
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'
