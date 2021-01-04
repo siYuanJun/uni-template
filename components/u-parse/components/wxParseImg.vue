@@ -1,14 +1,16 @@
 <template>
-  <image
-    :mode="node.attr.mode"
-    :lazy-load="node.attr.lazyLoad"
-    :class="node.classStr"
-    :style="newStyleStr || node.styleStr"
-    :data-src="node.attr.src"
-    :src="node.attr.src"
-    @tap="wxParseImgTap"
-    @load="wxParseImgLoad"
-    />
+	<view class="text-center">
+		<image
+			:mode="node.attr.mode"
+			:lazy-load="true"
+			:class="node.classStr"
+			:style="newStyleStr || node.styleStr"
+			:data-src="node.attr.src"
+			:src="node.attr.src"
+			@tap="wxParseImgTap"
+			@load="wxParseImgLoad"
+			/>
+  </view>
 </template>
 
 <script>
