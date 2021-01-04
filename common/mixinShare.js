@@ -3,7 +3,7 @@ export default {
 		return {
 			//设置默认的分享参数
 			share: {
-				title: '壹HOME',
+				title: 'title',
 				path: '/pages/index/index',
 				imageUrl: '',
 				desc: '',
