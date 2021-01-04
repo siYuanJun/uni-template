@@ -10,7 +10,7 @@ Vue.prototype.resostatic= 'http://www.bjxcsy.com/promotion/images'
 // 网络请求
 import Request from '@/js_sdk/luch-request/request'
 var http = new Request();
-http.config.baseUrl = "";
+http.config.baseUrl = "https://www.xxx.com/api";
 Vue.prototype.http = http;
 
 // 顶部自定义导航
