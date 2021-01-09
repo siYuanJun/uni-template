@@ -127,37 +127,5 @@
 	@import "./components/colorui/main.css";
 	@import "./components/colorui/icon.css";
 	@import "./components/colorui/animation.css";
-
-	html {
-		max-width: 750px;
-		margin: 0px auto;
-		body {
-			background-color: #222222;
-		}
-	}
-
-	.big {
-		width: 100%;
-		height: 50px;
-		color: #ffffff;
-		background-color: #E79A15;
-	}
-
-	.navigator-hover {
-		background: none;
-	}
-
-	uni-swiper .uni-swiper-dot {
-		width: 26px;
-		height: 3px;
-		border-radius: 0px;
-	}
-
-	uni-swiper .uni-swiper-dot.uni-swiper-dot-active {
-		background: rgba(251, 95, 36, 1);
-	}
-	
-	.margin-top-xxl {
-		margin-top: 100rpx;
-	}
+	@import "./static/css/common.less";
 </style>

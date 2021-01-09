@@ -25,9 +25,11 @@ Vue.component('cuCustom', cuCustom)
 //     key: qqmapKey // 必填
 // });
 
-// 全局分享
+// 全局mixin
+import pagePull from '@/common/mixinPull.js'
 import share from '@/common/mixinShare.js'
 Vue.mixin(share)
+Vue.mixin(pagePull)
 
 Vue.config.productionTip = false
 

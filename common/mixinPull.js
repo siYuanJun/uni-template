@@ -3,7 +3,7 @@ export default {
 		return {}
 	},
 	onLoad() {
-
+		console.log("mixinPull")
 	},
 	methods: {
 		getu(field) {

@@ -12,10 +12,10 @@
 				</view>
 				<view class="cu-load loading"></view>
 			</view>
-			<button class="cu-btn bg-yellow big btnlogin" v-else-if="canIUse" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">
+			<button class="cu-btn bg-yellow btnlogin" v-else-if="canIUse" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">
 				手机号登录
 			</button>
-			<button class="cu-btn bg-yellow big btnlogin" v-if="!canIUse">请升级微信版本</button>
+			<button class="cu-btn bg-yellow btnlogin" v-if="!canIUse">请升级微信版本</button>
 		</view>
 	</view>
 </template>
@@ -243,7 +243,10 @@
 			box-shadow: #007AFF;
 			border-radius: 5px;
 			box-shadow: 2px 6px 10px rgba(231, 154, 21, 0.2);
-			background: #E79A15;
+			width: 100%;
+			height: 50px;
+			color: #ffffff;
+			background-color: #E79A15;
 
 			&.button-hover {
 				box-shadow: 0 0 0 rgba(231, 154, 21, 0.3);
