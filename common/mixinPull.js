@@ -34,20 +34,10 @@ export default {
 			data.page = that.parmform.page
 			data.formdata = that.parmform
 			// formdata = {...data, ...that.parmform}
-			that.http.post(url, data).then(res => {
-				res = res.data
-				if (res.data.length) {
-					if (type === 'add') {
-						// 数据递增使用 forEach
-						res.data.forEach(item => {
-							that.parmdata.data.push(item)
-						})
-					} else {
-						that.parmdata = res
-					}
-					// 处理数据显示
-					that.parmloca.loadMoreStatus = res.data.length < 10 ? 2 : 0;
-				} else {
+			return new Promise((resolve, reject) => {
+				that.http.post(url, data).then(res => {
+					res = res.data
+					resolve(res)
 					if (res.msg) {
 						uni.showToast({
 							title: res.msg,
@@ -61,19 +51,16 @@ export default {
 						})
 						return
 					}
-				}
-				if (call) {
-					that[call] ? that[call](res) : ''
-				}
-				that.fabuLocaing = 1
-				uni.stopPullDownRefresh();
-			}).catch(err => {
-				console.log(err)
-				uni.showToast({
-					title: '系统错误',
-					icon: 'none',
-					duration: 2000
-				});
+					that.fabuLocaing = 1
+					uni.stopPullDownRefresh();
+				}).catch(err => {
+					reject(err)
+					uni.showToast({
+						title: '系统错误',
+						icon: 'none',
+						duration: 2000
+					});
+				})
 			})
 		},
 		//调用地图路线规划接口
