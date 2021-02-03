@@ -6,10 +6,34 @@ export default {
 		console.log("mixinPull")
 	},
 	methods: {
+		// 表单验证
+		frmVerification(formdata, field, message) {
+			return new Promise((resolve, reject) => {
+				let status = 0
+				for (var i = 0; i < field.length; i++) {
+					if (formdata[field[i]] == '') {
+						// uni.showToast({
+						// 	title: '请输入' + message[i],
+						// 	icon: 'none',
+						// 	duration: 2000
+						// });
+						// return
+						status += 1
+					} else {
+						status += 1
+					}
+				}
+				if (status === field.length) {
+					resolve(formdata)
+				}
+			})
+		},
 		getu(field) {
-			if(uni.getStorageSync('userInfo')) {
-				uni.getStorageSync('userInfo').xcxuser[field]
+			let userinfo = uni.getStorageSync('userInfo')
+			if (field) {
+				return userinfo[field]
 			}
+			return userinfo
 		},
 		href(url) {
 			uni.navigateTo({
