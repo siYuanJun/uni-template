@@ -1,3 +1,11 @@
+<style lang="less">
+	.content {
+		margin: 30px 20px 20px 20px;
+		font-size: 16px;
+		line-height: 30px;
+	}
+</style>
+
 <template>
 	<view class="content">
 		<u-parse :content="parmdata.data.content" @preview="preview" @navigate="navigate"></u-parse>
@@ -6,12 +14,10 @@
 
 <script>
 	import uParse from '@/components/u-parse/u-parse'
-	import indexMixin from '@/common/mixinPull'
 	export default {
 		components: {
 		    uParse
 	    },
-		mixins: [indexMixin],
 		data() {
 			return {
 				api_index: '/navads',
@@ -52,11 +58,3 @@
 		}
 	}
 </script>
-
-<style lang="less">
-	.content {
-		margin: 30px 20px 20px 20px;
-		font-size: 16px;
-		line-height: 30px;
-	}
-</style>
