@@ -58,13 +58,17 @@ export default {
 				that.http.config.header = {
 					'content-type': 'application/x-www-form-urlencoded'
 				}
+				formdata.token = uni.getStorageSync('userInfoToken')
+				formdata = {
+					params: formdata
+				}
 			}
 			if (methods == "post") {
 				that.http.config.header = {
 					'content-type': 'application/json'
 				}
+				formdata.token = uni.getStorageSync('userInfoToken')
 			}
-			formdata.token = uni.getStorageSync('userInfoToken')
 			return new Promise((resolve, reject) => {
 				that.http[methods](url, formdata).then(res => {
 					res = res.data
