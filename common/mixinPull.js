@@ -17,9 +17,9 @@ export default {
 			})
 		},
 		// 发送数据请求
-		ajaxRequest(that, url, type, call) {
+		ajaxRequest(that, url, formdata, methods, type) {
 			//type add 加载更多 refresh下拉刷新
-			if (type === 'add') {
+			if (type == 'add') {
 				if (that.parmloca.loadMoreStatus === 2) {
 					return;
 				}
@@ -28,38 +28,44 @@ export default {
 			} else {
 				that.parmform.page = 1;
 			}
-			let data = {}, formdata = {}
-			data.openid = uni.getStorageSync('openid');
-			data.token = that.webkey
-			data.page = that.parmform.page
-			data.formdata = that.parmform
-			// formdata = {...data, ...that.parmform}
+			var formdata = formdata ? formdata : {},
+				methods = methods ? methods : "get"
+			if (methods == "get") {
+				that.http.config.header = {
+					'content-type': 'application/x-www-form-urlencoded'
+				}
+			}
+			if (methods == "post") {
+				that.http.config.header = {
+					'content-type': 'application/json'
+				}
+			}
+			formdata.token = uni.getStorageSync('userInfoToken')
 			return new Promise((resolve, reject) => {
-				that.http.post(url, data).then(res => {
+				that.http[methods](url, formdata).then(res => {
 					res = res.data
-					resolve(res)
-					if (res.msg) {
-						uni.showToast({
-							title: res.msg,
-							icon: 'none',
-							duration: 2000
-						});
+					if (res.code === 200) {
+						resolve(res)
+					} else {
+						if (res.message) {
+							uni.showToast({
+								title: res.message,
+								icon: 'none',
+								duration: 2000
+							});
+						}
+						if (res.code === 403) {
+							uni.navigateTo({
+								url: "/pages/public/login"
+							})
+							return
+						}
 					}
-					if (res.code === 403) {
-						uni.navigateTo({
-							url: "/pages/public/login"
-						})
-						return
-					}
-					that.fabuLocaing = 1
+					that.submitLocaing = 1
 					uni.stopPullDownRefresh();
 				}).catch(err => {
 					reject(err)
-					uni.showToast({
-						title: '系统错误',
-						icon: 'none',
-						duration: 2000
-					});
+					console.log(err)
 				})
 			})
 		},
