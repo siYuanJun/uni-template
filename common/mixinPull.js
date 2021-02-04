@@ -6,6 +6,14 @@ export default {
 		console.log("mixinPull")
 	},
 	methods: {
+		// ID元素属性获取
+		domExec(fieid) {
+			var that = this;
+			var query = uni.createSelectorQuery()
+			query.select("#" + fieid).boundingClientRect(function(res) {
+				that.parmloca[fieid] = res
+			}).exec();
+		},
 		// 表单验证
 		frmVerification(formdata, field, message) {
 			return new Promise((resolve, reject) => {
