@@ -1,6 +1,6 @@
 const config = {
 	title: 'uni-moban',
-	baseUrl: "",
+	baseUrl: '',
 	amapWebKey: '',
 	amapXcxKey: '',
 	amapAndroidKey: '',
