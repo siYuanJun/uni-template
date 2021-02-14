@@ -1,9 +1,9 @@
 const config = {
-	title: '虾优惠TMS',
-	baseUrl: "http://121.36.132.134:8080/lobster/api",
-	amapWebKey: '2ea15ef0ad713800e292b45a43adb1ae',
-	amapXcxKey: '0263d3af61d347ae89c04ba4deb767a5',
-	amapAndroidKey: '7d388d43e8143c89d16e0da85b10d815',
+	title: 'uni-moban',
+	baseUrl: "",
+	amapWebKey: '',
+	amapXcxKey: '',
+	amapAndroidKey: '',
 }
 
 // 初始化高德地图配置
