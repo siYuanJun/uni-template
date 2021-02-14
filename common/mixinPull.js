@@ -14,19 +14,41 @@ export default {
 				that.parmloca[fieid] = res
 			}).exec();
 		},
+		copyGet(content) {
+			uniCopy({
+				content: content,
+				success: (res) => {
+					uni.showToast({
+						title: res,
+						icon: 'none'
+					})
+				},
+				error: (e) => {
+					uni.showToast({
+						title: e,
+						icon: 'none',
+						duration: 3000,
+					})
+				}
+			})
+		},
+		phoneGet(phone) {
+			uni.makePhoneCall({
+				phoneNumber: phone
+			})
+		},
 		// 表单验证
 		frmVerification(formdata, field, message) {
 			return new Promise((resolve, reject) => {
 				let status = 0
 				for (var i = 0; i < field.length; i++) {
 					if (formdata[field[i]] == '') {
-						// uni.showToast({
-						// 	title: '请输入' + message[i],
-						// 	icon: 'none',
-						// 	duration: 2000
-						// });
-						// return
-						status += 1
+						uni.showToast({
+							title: message[i] + '不能为空',
+							icon: 'none',
+							duration: 2000
+						});
+						return
 					} else {
 						status += 1
 					}
@@ -48,34 +70,47 @@ export default {
 				url: url
 			})
 		},
+		swithref(url) {
+			uni.switchTab({
+				url: url
+			})
+		},
+		// 缓存数据跳转
+		hrefSave(json, url) {
+			uni.setStorage({
+				key: 'content',
+				data: json,
+				success: function() {
+					uni.navigateTo({
+						url: url
+					})
+				}
+			})
+		},
 		// 发送数据请求
 		ajaxRequest(that, url, formdata, methods, type) {
 			//type add 加载更多 refresh下拉刷新
 			if (type == 'add') {
-				if (that.parmloca.loadMoreStatus === 2) {
-					return;
-				}
-				that.parmform.page++;
 				that.parmloca.loadMoreStatus = 1;
 			} else {
-				that.parmform.page = 1;
+				// that.parmform.page = 1;
 			}
 			var formdata = formdata ? formdata : {},
 				methods = methods ? methods : "get"
 			if (methods == "get") {
 				that.http.config.header = {
-					'content-type': 'application/x-www-form-urlencoded'
+					'content-type': 'application/x-www-form-urlencoded',
+					'X-Access-Token': uni.getStorageSync('userInfoToken'),
 				}
-				formdata.token = uni.getStorageSync('userInfoToken')
 				formdata = {
 					params: formdata
 				}
 			}
 			if (methods == "post") {
 				that.http.config.header = {
-					'content-type': 'application/json'
+					'content-type': 'application/json',
+					'X-Access-Token': uni.getStorageSync('userInfoToken'),
 				}
-				formdata.token = uni.getStorageSync('userInfoToken')
 			}
 			return new Promise((resolve, reject) => {
 				that.http[methods](url, formdata).then(res => {
@@ -83,18 +118,21 @@ export default {
 					if (res.code === 200) {
 						resolve(res)
 					} else {
-						if (res.message) {
-							uni.showToast({
-								title: res.message,
-								icon: 'none',
-								duration: 2000
-							});
-						}
-						if (res.code === 403) {
+						if (res.code === 403 
+						|| res.message == "token失效,请重新登录" 
+						|| res.message == "无token，请重新登录" 
+						|| res.message == "Token失效，请重新登录!") {
 							uni.navigateTo({
 								url: "/pages/public/login"
 							})
-							return
+						} else {
+							if (res.message) {
+								uni.showToast({
+									title: res.message,
+									icon: 'none',
+									duration: 2000
+								});
+							}
 						}
 					}
 					that.submitLocaing = 1
