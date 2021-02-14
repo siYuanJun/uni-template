@@ -1,31 +1,16 @@
 import Vue from 'vue'
 import App from './App'
+import init from '@/common/config'
 
+Vue.prototype.webTitle = init.config.title
 // 项目token
-Vue.prototype.webkey = ''
-
-// 资源地址
-Vue.prototype.resostatic= 'http://www.bjxcsy.com/promotion/images'
-
+Vue.prototype.webKey = ''
 // 网络请求
-import Request from '@/js_sdk/luch-request/request'
-var http = new Request();
-http.config.baseUrl = "https://www.xxx.com/api";
-Vue.prototype.http = http;
-
+Vue.prototype.http = init.http;
 // 顶部自定义导航
 import cuCustom from '@/components/colorui/components/cu-custom'
 Vue.component('cuCustom', cuCustom)
-
-// 腾讯地图配置信息
-// var qqmapKey = ''
-// Vue.prototype.qqmapKey = qqmapKey;
-// var QQMapWX = require('@/js_sdk/qqmap-wx-jssdk.min.js');
-// Vue.prototype.qqmapsdk = new QQMapWX({
-//     key: qqmapKey // 必填
-// });
-
-// 全局mixin
+// 全局 mixin
 import pagePull from '@/common/mixinPull.js'
 import share from '@/common/mixinShare.js'
 Vue.mixin(share)
