@@ -31,7 +31,6 @@
 export default {
   data() {
     return {
-      api_url: "&c=Promotion&a=index",
       parmdata: {},
       parmform: {},
       parmloca: {},
@@ -39,7 +38,7 @@ export default {
   },
   onLoad() {
     let that = this;
-    that.ajaxRequest(that, that.api_url);
+    that.ajaxRequest(that, that.routes.api_index);
   },
   methods: {
     onPullDownRefresh() {

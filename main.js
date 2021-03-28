@@ -2,12 +2,15 @@ import Vue from "vue";
 import App from "./App";
 import init from "@/common/config";
 import cuCustom from "@/components/colorui/components/cu-custom";
-import pagePull from "@/common/mixinPull.js";
-import share from "@/common/mixinShare.js";
+import pagePull from "@/common/mixinPull";
+import share from "@/common/mixinShare";
+import routes from "@/common/routes";
 
 Vue.prototype.webTitle = init.config.title;
 // 项目token
-Vue.prototype.webKey = "";
+Vue.prototype.webTokey = init.config.webTokey;
+// 公用路由
+Vue.prototype.routes = routes;
 // 网络请求
 Vue.prototype.http = init.http;
 // 顶部自定义导航
@@ -19,7 +22,6 @@ Vue.mixin(pagePull);
 Vue.config.productionTip = false;
 
 App.mpType = "app";
-
 const app = new Vue({
   ...App
 });

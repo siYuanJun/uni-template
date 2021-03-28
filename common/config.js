@@ -4,7 +4,9 @@ const config = {
   // 项目名称
   title: "uni-moban",
   // 接口域名
-  baseUrl: "",
+  baseUrl: "https://www.xxx.com/api",
+  // 项目Token
+  webTokey: "",
   //  高德地图
   amap: {
     WebKey: "", // WEB秘钥
