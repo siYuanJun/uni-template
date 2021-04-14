@@ -90,13 +90,7 @@ export default {
       });
     },
     // 发送数据请求
-    ajaxRequest(that, url, formdata, methods, type) {
-      //type add 加载更多 refresh下拉刷新
-      if (type == "add") {
-        that.parmloca.loadMoreStatus = 1;
-      } else {
-        // that.parmform.page = 1;
-      }
+    ajaxRequest(that, url, formdata, methods) {
       var formdata = formdata ? formdata : {},
         methods = methods ? methods : "get";
       if (methods == "get") {

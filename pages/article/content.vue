@@ -1,5 +1,5 @@
 <style lang="less">
-	.content {
+	.parm-content {
 		margin: 30px 20px 20px 20px;
 		font-size: 16px;
 		line-height: 30px;
@@ -7,7 +7,7 @@
 </style>
 
 <template>
-	<view class="content">
+	<view class="parm-content">
 		<u-parse :content="parmdata.data.content" @preview="preview" @navigate="navigate"></u-parse>
 	</view>
 </template>
@@ -20,13 +20,11 @@
 	    },
 		data() {
 			return {
-				api_index: '/navads',
 				imageProp: {
 					mode: 'widthFix'
 				},
 				parmform: {},
 				parmdata: {
-					data: {}
 				},
 				parmloca: {}
 			}

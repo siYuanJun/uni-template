@@ -49,7 +49,7 @@
 		"color": "#3D484D",
 		"selectedColor": "#E79A15",
 		"borderStyle": "white",
-		"backgroundColor": "#ffffff",
+		"backgroundColor": "#EEEEEE",
 		"list": [{
 				"pagePath": "pages/index/index",
 				"iconPath": "/static/images/nav/home-icon.png",
