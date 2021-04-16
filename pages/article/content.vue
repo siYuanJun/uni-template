@@ -1,58 +1,54 @@
 <style lang="less">
-	.parm-content {
-		margin: 30px 20px 20px 20px;
-		font-size: 16px;
-		line-height: 30px;
-	}
+.parm-content {
+	margin: 30upx;
+	font-size: 28upx;
+	line-height: 1.5;
+}
 </style>
 
 <template>
-	<view class="parm-content">
-		<u-parse :content="parmdata.data.content" @preview="preview" @navigate="navigate"></u-parse>
-	</view>
+	<view class="parm-content"><u-parse :content="parmdata.content" @preview="preview" @navigate="navigate"></u-parse></view>
 </template>
 
 <script>
-	import uParse from '@/components/u-parse/u-parse'
-	export default {
-		components: {
-		    uParse
-	    },
-		data() {
-			return {
+import uParse from '@/components/u-parse/u-parse';
+export default {
+	components: {
+		uParse
+	},
+	data() {
+		return {
+			parmform: {},
+			parmdata: {},
+			parmloca: {
 				imageProp: {
 					mode: 'widthFix'
-				},
-				parmform: {},
-				parmdata: {
-				},
-				parmloca: {}
-			}
-		},
-		onLoad(e) {
-			let that = this
-			console.log(e)
-			if(e.id) {
-				that.parmform.id = e.id
-				that.ajaxRequest(that, that.api_index, 0, 'contentCall')
-				that.contentCall = res => {
-					res = res.data
-					if(res.name) {
-						uni.setNavigationBarTitle({
-							title: res.name
-						})
-					}
 				}
 			}
+		};
+	},
+	onLoad(e) {
+		let that = this;
+		console.log(e);
+		that.parmform.id = e.id;
+		that.getData();
+	},
+	methods: {
+		preview(src, e) {
+			// do something
+			console.log(src);
 		},
-		methods: {
-			preview(src, e) {
-			  // do something
-			  console.log(src)
-			},
-			navigate(href, e) {
-			  // do something
-			}
+		navigate(href, e) {
+			// do something
+		},
+		async getData() {
+			let that = this;
+			let result = await that.ajaxRequest(that, that.routes.api_content, that.parmdata);
+			console.log(result);
+			// uni.setNavigationBarTitle({
+			// 	title: res.name
+			// })
 		}
 	}
+};
 </script>

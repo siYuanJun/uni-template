@@ -7,6 +7,8 @@ const config = {
   baseUrl: "https://www.xxx.com/api",
   // 项目Token
   webTokey: "",
+	// 是否开启调试模式
+	debug: false,
   //  高德地图
   amap: {
     WebKey: "", // WEB秘钥
