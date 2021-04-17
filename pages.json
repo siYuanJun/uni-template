@@ -39,17 +39,17 @@
 		}]
 	},
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "项目标题",
-		"navigationBarBackgroundColor": "#ffffff",
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "title",
+		"navigationBarBackgroundColor": "#58C3E0",
 		// "navigationStyle": "custom",
-		"backgroundColor": "#ffffff"
+		"backgroundColor": "#EEEEEE"
 	},
 	"tabBar": {
-		"color": "#3D484D",
-		"selectedColor": "#E79A15",
-		"borderStyle": "white",
-		"backgroundColor": "#EEEEEE",
+		"color": "#999999",
+		"selectedColor": "#000000",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
 		"list": [{
 				"pagePath": "pages/index/index",
 				"iconPath": "/static/images/nav/home-icon.png",
