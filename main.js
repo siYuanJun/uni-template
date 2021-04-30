@@ -6,7 +6,11 @@ import pagePull from "@/common/mixinPull";
 import share from "@/common/mixinShare";
 import routes from "@/common/routes";
 
+// git commit -m "feat: code"
+// git commit -m "fix: code"
+// git commit -m "perf: code audioPlay"
 Vue.prototype.webTitle = init.config.title;
+Vue.prototype.webVersion = init.config.version;
 // 项目token
 Vue.prototype.webTokey = init.config.webTokey;
 // 公用路由
