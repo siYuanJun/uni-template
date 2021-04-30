@@ -64,7 +64,6 @@ export default {
 	data() {
 		return {
 			title: '消息',
-			api_getMessageList: '/delivery/getMessageList',
 			parmform: {
 				pageNo: 1,
 				pageSize: 10
@@ -102,13 +101,13 @@ export default {
 		onPullDownRefresh() {
 			console.log('refresh');
 			let that = this;
-			that.init(that);
+			that.getData(that);
 		},
 		onReachBottom() {
 			console.log('onReachBottom');
 			let that = this;
 			that.parmform.pageNo++;
-			that.init(that, that.parmform.pageNo, 'add');
+			that.getData(that, that.parmform.pageNo, 'add');
 		}
 	}
 }
