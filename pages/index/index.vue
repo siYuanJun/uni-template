@@ -23,9 +23,17 @@ export default {
 	},
 	onLoad() {
 		let that = this;
-		that.ajaxRequest(that, that.routes.api_index);
+		// that.getData()
 	},
 	methods: {
+		async getData() {
+			let that = this;
+			let result = await that.ajaxRequest(that, that.routes.api_content, that.parmdata);
+			console.log(result);
+			// uni.setNavigationBarTitle({
+			// 	title: res.name
+			// })
+		},
 		onPullDownRefresh() {
 			console.log('refresh');
 		},

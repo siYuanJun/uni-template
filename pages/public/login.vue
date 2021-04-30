@@ -4,7 +4,7 @@ page {
 }
 
 .content {
-	padding: 0px 20px;
+	padding: 0px 60upx;
 }
 
 .wxlogo {
@@ -14,7 +14,8 @@ page {
 	margin-top: 36%;
 
 	image {
-		width: 100px;
+		width: 200upx;
+		height: 200upx;
 	}
 }
 
@@ -36,16 +37,15 @@ page {
 
 	.btnlogin {
 		margin-top: 40px;
-		box-shadow: #007aff;
 		border-radius: 5px;
-		box-shadow: 2px 6px 10px rgba(231, 154, 21, 0.2);
+		box-shadow: 2px 6px 10px fade(#58c3e0, 20);
 		width: 100%;
-		height: 50px;
+		height: 100upx;
 		color: #ffffff;
-		background-color: #e79a15;
+		background-color: #58c3e0;
 
 		&.button-hover {
-			box-shadow: 0 0 0 rgba(231, 154, 21, 0.3);
+			box-shadow: 0 0 0 fade(#58c3e0, 30);
 		}
 	}
 
@@ -61,17 +61,23 @@ page {
 
 <template>
 	<view class="content">
-		<view class="wxlogo"><image :src="wxlogo" mode="widthFix" /></view>
+		<view class="wxlogo"><image :src="wxlogo" mode="aspectFit" /></view>
 		<view class="login-body">
 			<view class="dd1">微信授权页</view>
 			<view class="dd2">授权并同意使用微信手机号登录小程序</view>
-			<view class="flex justify-center align-center cu-btn bg-yellow big btnlogin" v-if="loginLoading">
+			<view class="flex justify-center align-center cu-btn bg-yellow big btnlogin" v-if="!submitLocaing">
 				<view class="name">登录中</view>
 				<view class="cu-load loading"></view>
 			</view>
-			<button class="cu-btn bg-yellow btnlogin" v-else-if="canIUse" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">手机号登录</button>
-			<button class="cu-btn bg-yellow btnlogin" v-if="!canIUse">请升级微信版本</button>
+			<button class="cu-btn bg-yellow big btnlogin" v-if="canIUse && !token && submitLocaing" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">微信授权</button>
+			<button class="cu-btn bg-yellow big btnlogin" v-else-if="canIUse && token && submitLocaing" open-type="getPhoneNumber" @getphonenumber="bindGetUserInfo">
+				绑定微信手机号
+			</button>
 		</view>
+		<!-- <view class="flex justify-center padding text-footer text-sm" @tap="href('../article/content?id=1')">
+			点击登录即表示已阅读并同意
+			<text>《法律条款与隐私政策》</text>
+		</view> -->
 	</view>
 </template>
 
@@ -79,34 +85,35 @@ page {
 export default {
 	data() {
 		return {
-			api_login: '/login',
-			api_userinfo: '/userinfo',
+			test: '123456',
 			canIUse: '',
 			wxlogo: '',
-			loginLoading: ''
+			submitLocaing: 1,
+			btntype: '',
+			token: ''
 		};
 	},
 	onLoad() {
 		let that = this;
 		// getphonenumber
 		that.canIUse = uni.canIUse('button.open-type.getUserInfo');
-		that.wxlogo = that.weburl + '/static/xcx/images/wxlogo.png';
 	},
 	methods: {
 		// 检测同意授权信息
 		bindGetUserInfo(e) {
 			console.log(e);
 			let that = this;
-			// 获得最新的用户信息
-			if (e.detail) {
+			that.dd('获得最新的用户信息');
+			if (e.detail.encryptedData) {
+				that.btntype = e.type;
 				uni.setStorage({
 					key: 'userdetail',
 					data: e.detail,
 					success: function(res) {
 						uni.setStorageSync('userdetail', e.detail);
 						uni.setStorageSync('userInfo', e.detail.userInfo);
-						uni.removeStorageSync('openid');
-						that.checkSessionAndLogin();
+						uni.removeStorageSync('token');
+						that.checkSessionAndLogin(that);
 					},
 					fail: function(err) {
 						console.log(err);
@@ -133,12 +140,11 @@ export default {
 		 * 如果没过期则返回
 		 * 如果没登录过则执行login 并将用户信息发送到服务器更新
 		 */
-		checkSessionAndLogin() {
-			let that = this;
-			let thisOpenId = uni.getStorageSync('openid');
+		checkSessionAndLogin(that) {
+			let thisOpenId = uni.getStorageSync('token');
 			// 已经进行了登录，检查登录是否过期
 			if (thisOpenId) {
-				console.log('have openid');
+				that.dd('有token直接登陆');
 				uni.checkSession({
 					success: function() {
 						// session_key 未过期，并且在本生命周期一直有效
@@ -147,117 +153,71 @@ export default {
 					fail: function() {
 						console.log('but session_key expired');
 						// session_key 已经失效，需要重新执行登录流程
-						uni.removeStorageSync('openid');
-						that.checkSessionAndLogin();
+						uni.removeStorageSync('token');
+						that.checkSessionAndLogin(that);
 					}
 				});
 			} else {
 				// 没有进行登录则先进行登录操作
-				console.log('do not have openid');
-				that.loginAndGetOpenid();
+				that.dd('没有token重新登陆，点击类型' + that.btntype);
+				if (that.btntype == 'getuserinfo') {
+					that.dd('微信信息获取');
+					that.loginAndGetOpenid();
+				}
+				if (that.btntype == 'getphonenumber') {
+					that.dd('手机号获取');
+					that.loginAndGetOpenid();
+				}
 			}
 		},
 		// 执行登录操作并获取用户openId
-		loginAndGetOpenid() {
-			console.log('do login and get openid');
+		async loginAndGetOpenid() {
 			let that = this;
+			that.dd('开始登陆请求---');
 			let userdetail = uni.getStorageSync('userdetail');
-			that.loginLoading = 1;
+			that.submitLocaing = 0;
 			uni.login({
-				success: function(res) {
-					console.log(res);
-					if (res.code) {
-						that.http
-							.post(that.api_login, {
-								token: that.webkey,
-								formdata: {
+				success: async res => {
+					// 解决后台数据解密失败问题
+					uni.getUserInfo({
+						success: async ress => {
+							that.dd('getUserInfo 请求结果', ress);
+							that.dd('login 请求结果 ', res);
+							if (!res.code) {
+								return;
+							}
+							let result = await that.ajaxRequest(
+								that,
+								that.routes.api_wxlogin,
+								{
 									code: res.code,
-									encryptedData: userdetail.encryptedData,
-									iv: userdetail.iv
-								}
-							})
-							.then(res => {
-								res = res.data;
-								console.log(res);
-								// 保存openId，并将用户信息发送给后端
-								if (res.data) {
-									uni.setStorageSync('openid', res.data);
-									that.sendUserInfoToServer();
-								} else {
-									if (res.message) {
-										uni.showToast({
-											title: res.message,
-											icon: 'none',
-											duration: 2000
-										});
-									} else {
-										uni.showToast({
-											title: '系统超时，请重试',
-											icon: 'none',
-											duration: 2000
-										});
-									}
-								}
-							})
-							.catch(err => {
-								console.log(err);
-								uni.showToast({
-									title: '登录服务器错误',
-									icon: 'none',
-									duration: 2000
-								});
-							});
-						that.loginLoading = 0;
-					}
-				}
-			});
-		},
-		// 同步用户信息
-		sendUserInfoToServer() {
-			console.log('now send user info to server');
-			let that = this;
-			let userInfo = uni.getStorageSync('userInfo');
-			userInfo.token = that.webkey;
-			userInfo.openid = uni.getStorageSync('openid');
-			that.http
-				.post(that.api_userinfo, userInfo)
-				.then(res => {
-					res = res.data;
-					if (res.data) {
-						console.log('信息同步成功，关闭页面');
-						uni.setStorageSync('userInfo', res.data);
-						uni.showToast({
-							title: '登录成功',
-							icon: 'none',
-							duration: 2000
-						});
-						setTimeout(function() {
-							uni.navigateBack({});
-						}, 1200);
-					} else {
-						if (res.message) {
+									encryptedData: ress.encryptedData,
+									iv: ress.iv
+								},
+								'post'
+							);
+							that.dd('登陆请求返回数据', result);
+							let data = result.data;
+							if (!data) {
+								return;
+							}
+							that.token = data.token;
+							uni.setStorageSync('token', data.token);
+							uni.setStorageSync('userInfo', data.userInfo);
 							uni.showToast({
-								title: res.message,
+								title: '登陆成功',
 								icon: 'none',
-								duration: 2000
-							});
-						} else {
-							uni.showToast({
-								title: '信息同步失败',
-								icon: 'none',
-								duration: 2000
+								duration: 2000,
+								success() {
+									uni.reLaunch({
+										url: '/pages/index/jiedan'
+									});
+								}
 							});
 						}
-					}
-				})
-				.catch(err => {
-					console.log(err);
-					uni.showToast({
-						title: '同步服务器错误',
-						icon: 'none',
-						duration: 2000
 					});
-				});
+				}
+			});
 		}
 	}
 };

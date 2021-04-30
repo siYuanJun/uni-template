@@ -77,11 +77,11 @@ export default {
 	},
 	onLoad(e) {
 		let that = this;
-		that.init(that, 1);
+		that.getData(that, 1);
 	},
 	onShow() {},
 	methods: {
-		init(that, page, type) {
+		getData(that, page, type) {
 			that.parmform.pageNo = page != undefined ? page : 1;
 			that.parmform.userSystemId = that.getu('userSystemId');
 			that.ajaxRequest(that, that.api_getMessageList, that.parmform, 'get', type).then(res => {

@@ -12,11 +12,11 @@
 				</view>
 				<view class="cu-form-group">
 					<view class="title">卡号:</view>
-					<input type="text" v-model="parmform.kahao" @input="input1" placeholder="请输入您的银行卡号" placeholder-class="text-999999" />
+					<input type="text" v-model="parmform.bankCard" @input="input1" placeholder="请输入您的银行卡号" placeholder-class="text-999999" />
 				</view>
-				<view class="cu-form-group">
+				<view class="cu-form-group" @tap="getBankAccount">
 					<view class="title">开户行:</view>
-					<input type="text" v-model="parmform.kaihuhang" @input="input1" placeholder="请输入您的银行卡开户行" placeholder-class="text-999999" />
+					<input type="text" disabled="" v-model="parmform.bankName" @input="input1" placeholder="点击自动获取" placeholder-class="text-999999" />
 				</view>
 				<view class="padding-sm">
 					<view class="flex margin-top">
@@ -43,7 +43,10 @@
 				</view>
 				<view class="padding-sm">
 					<view class="flex margin-top">
-						<button class="cu-btn text-white round lg flex-sub" :class="parmloca.submitBtn2 ? 'bg-58C3E0' : 'bg-grey'" @tap="submit">提交</button>
+						<button class="cu-btn text-white round lg flex-sub" v-if="submitLocaing" :class="parmloca.submitBtn2 ? 'bg-58C3E0' : 'bg-grey'" @tap="submit">提交</button>
+						<view class="cu-btn text-white round lg flex-sub" v-else>
+							<view class="cu-load loading"></view>
+						</view>
 					</view>
 				</view>
 			</block>
@@ -57,10 +60,10 @@ export default {
 		return {
 			parmdata: {},
 			parmform: {
-				name: '吴夕',
-				kahao: '123456789',
-				kaihuhang: '',
-				phone: '13522841811',
+				name: '',
+				bankCard: '',
+				bankName: '',
+				phone: '',
 				code: ''
 			},
 			parmloca: {
@@ -71,7 +74,8 @@ export default {
 				smsmiao: 60,
 				smstxt: '获取验证码',
 				smsbtn: true
-			}
+			},
+			submitLocaing: 1
 		};
 	},
 	onLoad() {
@@ -79,8 +83,8 @@ export default {
 	},
 	methods: {
 		input1(e) {
-			this.dd('submitBtn1:' + this.parmform.name + '-' + this.parmform.kahao + '-' + this.parmform.kaihuhang);
-			if (this.parmform.name && this.parmform.kahao && this.parmform.kaihuhang) {
+			this.dd('submitBtn1:' + this.parmform.name + '-' + this.parmform.bankCard + '-' + this.parmform.bankName);
+			if (this.parmform.name && this.parmform.bankCard && this.parmform.bankName) {
 				this.parmloca.submitBtn1 = true;
 			} else {
 				this.parmloca.submitBtn1 = false;
@@ -96,9 +100,9 @@ export default {
 		},
 		async submit() {
 			let that = this;
-			this.input1();
-			this.input2();
-			if (!that.parmloca.agree && this.parmloca.submitBtn1) {
+			that.input1();
+			that.input2();
+			if (!that.parmloca.agree && that.parmloca.submitBtn1) {
 				uni.showToast({
 					title: '未同意协议！',
 					icon: 'none',
@@ -106,31 +110,43 @@ export default {
 				});
 				return;
 			}
-			if(this.parmloca.submitBtn1) {
-				that.parmloca.pageseq = 1;
-			} else {
+			if(!that.parmloca.submitBtn1) {
 				return
 			}
-			if (that.parmloca.pageseq != 1 || !this.parmloca.submitBtn2) {
+			if(that.parmloca.pageseq === 0) {
+				// 二要素验证
+				let result = await that.ajaxRequest(that, that.routes.api_verifyBankCard, that.parmform, 'post');
+				that.parmloca.pageseq = 1;
+			}
+			if (that.parmloca.pageseq != 1 || !that.parmloca.submitBtn2) {
 				return;
 			}
 			that.dd('[用户信息完善传递的数据]' + JSON.stringify(that.parmform));
 			let frmResult = await that.frmVerification(that.parmform, ['phone', 'code'], ['手机号', '验证码']);
 
+			// 提交
 			if (frmResult) {
-				let result = await that.ajaxRequest(that, that.routes.api_saveUserInfo, that.parmform, 'post');
+				that.submitLocaing = 0;
+				let result = await that.ajaxRequest(that, that.routes.api_bindBankCard, that.parmform, 'post');
 				console.log(result);
+				uni.navigateBack({
+				})
 			}
 		},
 		agreeChang() {
 			this.parmloca.agree = !this.parmloca.agree;
 		},
-		getsms() {
-			if (this.parmloca.smsmiao !== 60) {
+		async getsms() {
+			let that = this;
+			if (that.parmloca.smsmiao !== 60 || !that.parmloca.smsbtn) {
 				return;
 			}
-			this.parmloca.smsbtn = false;
-			this.smsmiao();
+			that.parmloca.smsbtn = false;
+			let result = await that.ajaxRequest(that, that.routes.api_sendSms, {phone: that.parmform.phone}, "post").then(res => {
+			}).catch(err => {
+				that.parmloca.smsbtn = true;
+			});
+			that.smsmiao();
 		},
 		smsmiao() {
 			this.parmloca.smstxt = '倒计时(' + this.parmloca.smsmiao + ')';
@@ -144,7 +160,35 @@ export default {
 				this.parmloca.smstxt = '获取验证码';
 				this.parmloca.smsbtn = true;
 			}
+		},
+		// 获取开户行
+		async getBankAccount() {
+			let that = this
+			if (!that.parmform.bankCard) {
+				uni.showToast({
+					title: '请先输入银行卡号！',
+					icon: 'none',
+					duration: 2000
+				});
+				return;
+			}
+			uni.showLoading({
+				title: "获取中..."
+			})
+			let result = await that.ajaxRequest(that, that.routes.api_getBankAccount, {bankCard: that.parmform.bankCard}, "post");
+			that.dd("银行卡和开户行信息", result)
+			if(result.data.AccountType !== 1) {
+				uni.showToast({
+					title: "请输入储蓄卡卡号",
+					icon: "none",
+					duration: 3000
+				});
+				return
+			}
+			that.parmform.bankName = result.data.AccountBank
+			that.input1()
+			uni.hideLoading({})
 		}
-	}
+  	}
 };
 </script>
