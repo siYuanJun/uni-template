@@ -31,18 +31,20 @@ export default {
 			})
 		},
 		// 调试使用
-		dd(content, type) {
-			type = type ?? 0
+		dd(content, json, type) {
+			type = type ? type : 0
+			json = json ? json : ''
+			let curRoute = this.$mp.page.route
 			if (init.config.debug) {
 				switch (type) {
 					case 0:
-						console.log("[info]", content)
+						console.log("[info](" + curRoute + ")", content, json)
 						break;
 					case 1:
-						console.log("[warning]", content)
+						console.log("[warning](" + curRoute + ")", content, json)
 						break;
 					case 2:
-						console.log("[error]", content)
+						console.log("[error](" + curRoute + ")", content, json)
 						break;
 				}
 			}
