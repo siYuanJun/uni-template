@@ -1,13 +1,12 @@
 <style lang="less">
-.item-block {
-}
+
 </style>
 <template>
 	<view class="">
 		<checkbox-group style="width: 100%;" @change="radioChang">
-			<view class="margin-bottom hide flex" v-for="(item, index) in list" :key="index">
+			<view class="margin-bottom-sm hide flex" v-for="(item, index) in list" :key="index">
 				<view class="padding-right flex align-center" v-if="operation"><checkbox :value="item.tid" class="radio round blue transform-sm" :checked="item.checked" @tap="radioChecked(index, item.checked)"/></view>
-				<view class="padding-sm radius-df flex-sub relative bg-white" :class="operation ? 'item-block' : ''">
+				<view class="padding-sm radius-df flex-sub relative bg-white">
 					<view class="padding-bottom-sm solid-bottom flex align-center justify-between text-df text-black">
 						<view class="">{{ item.taskName }}</view>
 						<view class="flex-sub text-right">
@@ -99,6 +98,7 @@ export default {
 			that.list[index].isCollect = !that.list[index].isCollect;
 			// 必须通知父级更换状态
 			that.$parent.parmdata.taskGrid = that.list;
+			that.$parent.collectCalcu(item, index)
 			that.dd('收藏返回', result);
 		}
 	}

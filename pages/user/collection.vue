@@ -2,20 +2,10 @@
 page {
 	background-color: #eeeeee;
 }
-.bar-height {
-	height: 100upx;
-}
 .cu-bar {
 	.cu-item.cur {
 		border-bottom: 4upx solid #58c3e0;
 	}
-}
-.bar-bottom {
-	background: #f9f9f9;
-	position: fixed;
-	left: 0;
-	width: 100%;
-	bottom: 0;
 }
 </style>
 <template>
@@ -83,23 +73,24 @@ export default {
 				selectendId: [], // 选中的数据
 				cloumlist: ['所有', '待接单', '已接单', '已完成', '已结算'],
 				loadMoreStatus: 0,
-				dataNoneList: true,
+				dataNoneList: true
 			},
 			submitLocaing: 0
 		};
 	},
 	onLoad() {
-		this.getData(this)
+		this.submitLocaing = 0;
+		this.getData(this);
 	},
 	methods: {
 		async getData(that, page, type) {
-			that.submitLocaing = 0
 			that.parmloca.loadMoreStatus = 1;
 			that.parmform.page = page != undefined ? page : 1;
 			let parmform = {
-				status: that.parmloca.pagetpl
+				status: that.parmloca.pagetpl,
+				page: that.parmform.page
 			};
-			let result = await that.ajaxRequest(that, that.routes.api_collectList, parmform, "post");
+			let result = await that.ajaxRequest(that, that.routes.api_collectList, parmform, 'post');
 			var data = result.data.items;
 			that.dd('收藏列表接口', data);
 			if (type == 'add') {
@@ -115,43 +106,79 @@ export default {
 			}
 			that.parmloca.dataNoneList = that.parmdata.taskGrid.length > 0;
 		},
-		onPullDownRefresh() {
-			console.log('refresh');
-			this.getData(this);
-		},
+		// onPullDownRefresh() {
+		// 	console.log('refresh');
+		// 	this.getData(this);
+		// },
 		onReachBottom() {
 			console.log('onReachBottom');
 			let that = this;
+			that.submitLocaing = 1;
 			that.parmform.page++;
 			that.getData(that, that.parmform.page, 'add');
 		},
 		// 全选操作
 		selectAll() {
-			this.parmloca.selectendId = []
+			this.parmloca.selectendId = [];
 			this.parmloca.selectAll = !this.parmloca.selectAll;
 			this.parmdata.taskGrid.map(item => {
 				this.$set(item, 'checked', this.parmloca.selectAll);
-				if(this.parmloca.selectAll) {
-					this.parmloca.selectendId.push(String(item.tid))
+				if (this.parmloca.selectAll) {
+					this.parmloca.selectendId.push(String(item.tid));
 				}
-			})
-			this.dd("选中了", this.parmloca.selectendId)
+			});
+			this.dd('选中了', this.parmloca.selectendId);
 		},
 		// 子组件操作
 		radioChang(data) {
-			this.dd("子组件选中", data)
-			this.parmloca.selectendId = data
+			this.dd('子组件选中', data);
+			this.parmloca.selectendId = data;
 			this.parmloca.selectAll = this.parmdata.taskGrid.length === data.length;
 		},
-		deleteBtn() {},
+		async deleteBtn() {
+			let that = this
+			let selectendId = that.parmloca.selectendId;
+			that.dd('删除的收藏数据', selectendId);
+			let selectendIds = selectendId.toString();
+			let parmform = {
+				tids: selectendIds
+			};
+			let array = [];
+			let result = await that.ajaxRequest(that, that.routes.api_collect, parmform, 'post');
+			that.dd('删除的收藏请求', result);
+			if (result.code === 0) {
+				for (let i = 0; i < that.parmdata.taskGrid.length; i++) {
+					let item = that.parmdata.taskGrid[i];
+					let val = selectendId.filter(it => Number(it) === item.tid);
+					if (!val.length) {
+						array.push(that.parmdata.taskGrid[i]);
+					}
+				}
+				that.parmdata.taskGrid = array;
+				that.parmloca.dataNoneList = that.parmdata.taskGrid.length > 0;
+			}
+		},
 		// 是否操作状态
 		operation() {
 			this.parmloca.operation = !this.parmloca.operation;
 		},
 		async pagetpl(index) {
 			this.parmloca.pagetpl = index;
-			this.parmdata.taskGrid = []
+			this.submitLocaing = 0;
+			this.parmdata.taskGrid = [];
 			this.getData(this);
+		},
+		// 子组件通信重构数组
+		collectCalcu(item, index) {
+			index = index ? index : 0;
+			this.dd('取消收藏', index);
+			delete this.parmdata.taskGrid[index];
+			let array = [];
+			this.parmdata.taskGrid.map(item => {
+				array.push(item);
+			});
+			this.parmdata.taskGrid = array;
+			this.parmloca.dataNoneList = this.parmdata.taskGrid.length > 0;
 		}
 	}
 };
