@@ -1,6 +1,5 @@
-import init from "@/common/config";
 import uniCopy from "@/js_sdk/xb-copy/uni-copy";
-import Voice from '@/js_sdk/QuShe-baiduYY/QS-baiduyy/QS-baiduyy.js';
+import init from "@/common/config";
 
 export default {
 	data() {
@@ -8,25 +7,38 @@ export default {
 			extConfig: []
 		};
 	},
-	onLoad() {
-		console.log("onLoad mixinPull")
-	},
+	onLoad() {},
 	onShow() {
-		if (uni.getStorageSync("extConfig")) {
-			this.extConfig = uni.getStorageSync("extConfig");
-			return
-		}
-		this.ajaxRequest(this, this.routes.api_selectList, {}).then(res => {
-			this.extConfig = res.data;
-			uni.setStorageSync("extConfig", this.extConfig)
-		})
-		this.dd("获取配置初始化数据", this.extConfig)
+		uni.setTabBarBadge({
+			index: 0,
+			text: '1'
+		});
 	},
 	methods: {
-		getUserInfo(that) {
-			this.ajaxRequest(this, this.routes.api_getUserInfo, {}, 'post').then(res => {
-				this.dd(res.data)
-				that.userInfo = res.data
+		async getExtConfig() {
+			if (uni.getStorageSync("extConfig")) {
+				this.extConfig = uni.getStorageSync("extConfig");
+			} else {
+				await this.ajaxRequest(this, this.routes.api_selectList, {}).then(res => {
+					this.extConfig = res.data;
+					this.dd("获取配置初始化数据", this.extConfig)
+					uni.setStorageSync("extConfig", this.extConfig)
+				})
+			}
+			return this.extConfig
+		},
+		islogin() {
+			if (!this.getu('id')) {
+				uni.reLaunch({
+					url: "/pages/public/login"
+				})
+				return
+			}
+		},
+		async getUserInfo(that) {
+			await this.ajaxRequest(this, this.routes.api_getUserInfo, {}, 'post').then(res => {
+				this.dd("用户信息", res.data)
+				that.userInfo = res.data ? res.data : {}
 				uni.setStorageSync("userInfo", res.data)
 			})
 		},
@@ -34,7 +46,10 @@ export default {
 		dd(content, json, type) {
 			type = type ? type : 0
 			json = json ? json : ''
-			let curRoute = this.$mp.page.route
+			let curRoute = '/'
+			if (this.$mp.page) {
+				curRoute = this.$mp.page.route
+			}
 			if (init.config.debug) {
 				switch (type) {
 					case 0:
@@ -48,25 +63,6 @@ export default {
 						break;
 				}
 			}
-		},
-		// 百度音频播放
-		audioPlay(text) {
-			Voice({
-				voiceSet: {
-					tex: text,
-					vol: 10
-				},
-				audioSet: {
-					volume: 1
-				},
-				audioCallback: {
-					onplay: () => {
-						console.log('音频开始播放了');
-					}
-				},
-				lineUp: true, // 加入语音队列
-				returnAudio: false // 返回音频对象
-			});
 		},
 		// ID元素属性获取
 		domExec(fieid) {
@@ -140,6 +136,11 @@ export default {
 				url: url
 			});
 		},
+		redirectTo(url) {
+			uni.redirectTo({
+				url: url
+			});
+		},
 		// 缓存数据跳转
 		hrefSave(json, url) {
 			uni.setStorage({
@@ -151,6 +152,9 @@ export default {
 					});
 				}
 			});
+		},
+		hrefBack() {
+			uni.navigateBack({})
 		},
 		// 发送数据请求
 		ajaxRequest(that, url, formdata, methods) {
@@ -177,12 +181,12 @@ export default {
 				that.http[methods](url, formdata)
 					.then((res) => {
 						res = res.data;
-						resolve(res);
 						if (res.code !== 0) {
 							if (res.code === 1001) {
 								uni.navigateTo({
 									url: "/pages/public/login"
 								});
+								return
 							} else {
 								if (res.msg) {
 									uni.showToast({
@@ -193,7 +197,8 @@ export default {
 								}
 							}
 						}
-						that.submitLocaing = 1;
+						resolve(res);
+						that.submitLoading = 1;
 						uni.stopPullDownRefresh();
 					})
 					.catch((err) => {
@@ -201,6 +206,55 @@ export default {
 						that.dd("err", err)
 					});
 			});
+		},
+		// 七牛云图片上传
+		uploadImage(that, num, callback) {
+			uni.chooseImage({
+				count: num,
+				sourceType: ['camera'],
+				sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
+				success: (res) => {
+					console.log("上传图片列表", res)
+					uni.showLoading({
+						title: '上传中...'
+					});
+					let tempFilePaths = res.tempFilePaths
+					let uploadImgCount = 0;
+					tempFilePaths.map(async item => {
+						uni.uploadFile({
+							url: init.config.baseUrl + that.routes.api_uploadFile,
+							filePath: item,
+							name: 'file',
+							header: {
+								'content-type': 'application/x-www-form-urlencoded'
+							},
+							formData: {
+								token: uni.getStorageSync("token")
+							},
+							success: function(res) {
+								uploadImgCount++;
+								res = JSON.parse(res.data)
+								that.dd("上传图片请求", res)
+								callback(res)
+								//如果是最后一张,则隐藏等待中
+								if (uploadImgCount === tempFilePaths.length) {
+									uni.hideLoading();
+								}
+							},
+							fail: function(err) {
+								that.dd("上传图片请求", err, 2)
+								uni.hideLoading();
+								uni.showModal({
+									title: '超时提示',
+									content: '上传图片失败',
+									showCancel: false,
+									success: function(res) {}
+								})
+							}
+						});
+					})
+				}
+			})
 		}
 	}
 };
