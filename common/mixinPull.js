@@ -206,55 +206,6 @@ export default {
 						that.dd("err", err)
 					});
 			});
-		},
-		// 七牛云图片上传
-		uploadImage(that, num, callback) {
-			uni.chooseImage({
-				count: num,
-				sourceType: ['camera'],
-				sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
-				success: (res) => {
-					console.log("上传图片列表", res)
-					uni.showLoading({
-						title: '上传中...'
-					});
-					let tempFilePaths = res.tempFilePaths
-					let uploadImgCount = 0;
-					tempFilePaths.map(async item => {
-						uni.uploadFile({
-							url: init.config.baseUrl + that.routes.api_uploadFile,
-							filePath: item,
-							name: 'file',
-							header: {
-								'content-type': 'application/x-www-form-urlencoded'
-							},
-							formData: {
-								token: uni.getStorageSync("token")
-							},
-							success: function(res) {
-								uploadImgCount++;
-								res = JSON.parse(res.data)
-								that.dd("上传图片请求", res)
-								callback(res)
-								//如果是最后一张,则隐藏等待中
-								if (uploadImgCount === tempFilePaths.length) {
-									uni.hideLoading();
-								}
-							},
-							fail: function(err) {
-								that.dd("上传图片请求", err, 2)
-								uni.hideLoading();
-								uni.showModal({
-									title: '超时提示',
-									content: '上传图片失败',
-									showCancel: false,
-									success: function(res) {}
-								})
-							}
-						});
-					})
-				}
-			})
 		}
 	}
 };

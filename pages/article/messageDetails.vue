@@ -19,8 +19,6 @@
 	    },
 		data() {
 			return {
-				title: "详情",
-				api_updateMessageStatus: "/user/updateMessageStatus",
 				parmform: {},
 				parmdata: {
 				},

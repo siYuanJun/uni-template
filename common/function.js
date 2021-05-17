@@ -2,7 +2,10 @@ import init from '@/common/config'
 const amapsdk = init.amapsdk
 const http = init.http
 
-// 微信定位
+/*
+ * 微信定位
+ * @param that 当前页面this
+ */
 var getLocation = function(that) {
 	return new Promise((resolve, reject) => {
 		uni.getLocation({
@@ -17,7 +20,11 @@ var getLocation = function(that) {
 	})
 }
 
-// 获取地址描述信息
+/*
+ * Sdk通过高德地图获取地址详细信息
+ * @param that 所在页面 this
+ * @param option 经纬度 {location: froma.longitude + "," + froma.latitude}
+ */
 var getRegeo = function(that, option) {
 	return new Promise((resolve, reject) => {
 		amapsdk.getRegeo({
@@ -32,7 +39,11 @@ var getRegeo = function(that, option) {
 	})
 }
 
-// 逆地理编码
+/*
+ * Web通过高德地图获取地址详细信息
+ * @param that 所在页面 this
+ * @param option 经纬度 {location: froma.longitude + "," + froma.latitude}
+ */
 var getRegeoWeb = function(that, location) {
 	var url = "https://restapi.amap.com/v3/geocode/regeo?key=" + init.config.amapWebKey + "&location=" + location +
 		"&poitype=&radius=1000&extensions=all&batch=false&roadlevel=0";
@@ -51,7 +62,11 @@ var getRegeoWeb = function(that, location) {
 	})
 }
 
-// 顺地理编码
+/*
+ * 地址转经纬度
+ * @param that 所在页面 this
+ * @param address 地址名称
+ */
 var getGeoWeb = function(that, address) {
 	var url = "https://restapi.amap.com/v3/geocode/geo";
 	return new Promise((resolve, reject) => {
@@ -72,7 +87,12 @@ var getGeoWeb = function(that, address) {
 	})
 }
 
-//调用地图路线规划接口
+/*
+ * 高德地图调用地图路线规划接口
+ * @param that 所在页面 this
+ * @param froma 起点
+ * @param toa 重点
+ */
 var directionFun = function(that, froma, toa) {
 	console.log("获取路线规划")
 	amapsdk.getDrivingRoute({
@@ -166,7 +186,12 @@ var directionFun = function(that, froma, toa) {
 	})
 }
 
-//多点位地图路线规划接口
+/*
+ * 多点位地图路线规划接口
+ * @param that 所在页面 this
+ * @param froma 起点
+ * @param toa 重点
+ */
 var directionFunBatch = function(that, froma, toa) {
 	console.log("获取路线规划")
 	return new Promise((resolve, reject) => {
@@ -227,7 +252,11 @@ var directionFunBatch = function(that, froma, toa) {
 	})
 }
 
-// 七牛云图片上传
+/*
+ * 七牛云图片上传
+ * @param num 上传数量
+ * @param callback => res {} 回调
+ */
 var uploadImage = function(num, callback) {
 	uni.chooseImage({
 		count: num,
@@ -279,8 +308,68 @@ var uploadImage = function(num, callback) {
 	})
 }
 
+/*
+ * 表单图片上传
+ * @param that 所在页面 this
+ * @param num 上传数量
+ * @param callback => res {} 回调
+ */
+var uploadImageForm = function(that, num, callback) {
+	uni.chooseImage({
+		count: num,
+		sourceType: ['camera'],
+		sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
+		success: (res) => {
+			console.log("上传图片列表", res)
+			uni.showLoading({
+				title: '上传中...'
+			});
+			let tempFilePaths = res.tempFilePaths
+			let uploadImgCount = 0;
+			tempFilePaths.map(async item => {
+				uni.uploadFile({
+					url: init.config.baseUrl + that.routes.api_uploadFile,
+					filePath: item,
+					name: 'file',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					formData: {
+						token: uni.getStorageSync("token")
+					},
+					success: function(res) {
+						uploadImgCount++;
+						res = JSON.parse(res.data)
+						that.dd("上传图片请求", res)
+						callback(res)
+						//如果是最后一张,则隐藏等待中
+						if (uploadImgCount === tempFilePaths.length) {
+							uni.hideLoading();
+						}
+					},
+					fail: function(err) {
+						that.dd("上传图片请求", err, 2)
+						uni.hideLoading();
+						uni.showModal({
+							title: '超时提示',
+							content: '上传图片失败',
+							showCancel: false,
+							success: function(res) {}
+						})
+					}
+				});
+			})
+		}
+	})
+}
 
-//打开第三方地图
+
+/*
+ * 打开第三方地图 [实用]
+ * @param latitude 终点纬度
+ * @param longitude 终点经度
+ * @param name 终点名称
+ */
 var openMapApp = function(latitude, longitude, name) {
 	//#ifndef APP-PLUS
 	uni.showToast({
@@ -375,6 +464,12 @@ var openMapApp = function(latitude, longitude, name) {
 	}
 }
 
+/*
+ * 打开高德地图 [未使用]
+ * @param name 终点名称
+ * @param slocation 起点经纬度
+ * @param dlocation 终点经纬度
+ */
 var gdMapOpen = function(name, slocation, dlocation) {
 	//#ifdef APP-PLUS
 	if (dlocation) {
@@ -409,6 +504,64 @@ var gdMapOpen = function(name, slocation, dlocation) {
 	//#endif
 }
 
+/*
+ * 单张加载状态
+ * @param url 图片地址
+ */
+var loadImg = function(url) {
+	return new Promise((resolve, reject) => {
+		const img = new Image();
+		img.onload = function() {
+			console.log("一张图片加载完成");
+			resolve(img);
+		};
+		img.onerror = function() {
+			reject(new Error('Could not load image at' + url));
+		};
+		img.src = url;
+	});
+}
+
+/*
+ * 图片列表加载状态
+ * @param urls Array 图片列表 
+ * @param handler function [loadImg]
+ * @param limit Number 数量
+ * @例子：limitLoad(urls, loadImg, 3).then(res => {console.log("图片全部加载完毕"); console.log(res);}).catch(err => {console.error(err);});
+ */
+var limitLoad = function(urls, handler, limit) {
+	let sequence = [].concat(urls); // 复制urls
+	// 这一步是为了初始化 promises 这个"容器"
+	let promises = sequence.splice(0, limit).map((url, index) => {
+		return handler(url).then(() => {
+			// 返回下标是为了知道数组中是哪一项最先完成
+			return index;
+		});
+	});
+	// 注意这里要将整个变量过程返回，这样得到的就是一个Promise，可以在外面链式调用
+	return sequence
+		.reduce((pCollect, url) => {
+			return pCollect
+				.then(() => {
+					return Promise.race(promises); // 返回已经完成的下标
+				})
+				.then(fastestIndex => { // 获取到已经完成的下标
+					// 将"容器"内已经完成的那一项替换
+					promises[fastestIndex] = handler(url).then(
+						() => {
+							return fastestIndex; // 要继续将这个下标返回，以便下一次变量
+						}
+					);
+				})
+				.catch(err => {
+					console.error(err);
+				});
+		}, Promise.resolve()) // 初始化传入
+		.then(() => { // 最后三个用.all来调用
+			return Promise.all(promises);
+		});
+}
+
 export {
 	getLocation,
 	directionFun,
@@ -418,5 +571,7 @@ export {
 	uploadImage,
 	directionFunBatch,
 	openMapApp,
-	gdMapOpen
+	gdMapOpen,
+	limitLoad,
+	loadImg
 }
