@@ -146,24 +146,20 @@ export default {
 		// 检测缓存授权信息
 		bindCheckCacheUserInfo(e) {
 			let that = this;
-			let loginCode = this.loginCode;
-			if (!loginCode) {
-				return;
-			}
-			e.detail.code = loginCode;
 			that.dd('bindCheckCacheUserInfo => 获得用户信息-配置缓存', e);
 			if (e.detail.encryptedData) {
 				that.btntype = e.type;
 				uni.setStorage({
 					key: 'userdetail',
 					data: e.detail,
-					success: function(res) {
+					success: res => {
+						e.detail.code = this.loginCode;
 						uni.setStorageSync('userdetail', e.detail);
 						uni.setStorageSync('userInfo', e.detail.userInfo);
 						uni.removeStorageSync('token');
 						that.checkSessionAndLogin(that);
 					},
-					fail: function(err) {
+					fail: err => {
 						console.log(err);
 						this.submitLoading = 1;
 						uni.showToast({
@@ -226,6 +222,7 @@ export default {
 			let userdetail = uni.getStorageSync('userdetail');
 			that.dd('loginAndGetOpenid => 读取缓存的用户数据', userdetail);
 			if (!userdetail.code) {
+				that.submitLoading = 1;
 				return;
 			}
 			let parmform = {
