@@ -193,7 +193,9 @@ export default {
 				uni.checkSession({
 					success: function() {
 						// session_key 未过期，并且在本生命周期一直有效
-						uni.navigateBack({});
+						uni.reLaunch({
+							url: '/pages/index/jiedan'
+						});
 					},
 					fail: function() {
 						console.log('but session_key expired');
@@ -239,9 +241,9 @@ export default {
 				return;
 			}
 			that.token = data.token;
-			uni.setStorageSync('token', data.token);
-			uni.setStorageSync('userInfo', data.userInfo);
 			if (data.userInfo.phone) {
+				uni.setStorageSync('token', data.token);
+				uni.setStorageSync('userInfo', data.userInfo);
 				uni.showToast({
 					title: '登陆成功',
 					icon: 'none',
