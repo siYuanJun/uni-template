@@ -90,7 +90,7 @@ export default {
 				status: that.parmloca.pagetpl,
 				page: that.parmform.page
 			};
-			let result = await that.ajaxRequest(that, that.routes.api_collectList, parmform, 'post');
+			let result = await that.Requests(that, that.routes.api_collectList, parmform, 'post');
 			var data = result.data.items;
 			that.dd('收藏列表接口', data);
 			if (type == 'add') {
@@ -144,7 +144,7 @@ export default {
 				tids: selectendIds
 			};
 			let array = [];
-			let result = await that.ajaxRequest(that, that.routes.api_collect, parmform, 'post');
+			let result = await that.Requests(that, that.routes.api_collect, parmform, 'post');
 			that.dd('删除的收藏请求', result);
 			if (result.code === 0) {
 				for (let i = 0; i < that.parmdata.taskGrid.length; i++) {

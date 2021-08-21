@@ -29,7 +29,6 @@ export default {
 	},
 	onLoad(e) {
 		let that = this;
-		console.log(e);
 		that.parmform.id = e.id;
 		that.getData();
 	},
@@ -43,7 +42,7 @@ export default {
 		},
 		async getData() {
 			let that = this;
-			let result = await that.ajaxRequest(that, that.routes.api_content, that.parmdata);
+			let result = await that.Requests(that, that.routes.api_content, that.parmdata);
 			console.log(result);
 			// uni.setNavigationBarTitle({
 			// 	title: res.name

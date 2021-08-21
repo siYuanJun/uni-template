@@ -16,7 +16,7 @@ export default {
 	},
 	onLoad() {
 		let that = this;
-		that.ajaxRequest(that, that.routes.api_index);
+		that.Requests(that, that.routes.api_index);
 	},
 	methods: {
 		onPullDownRefresh() {

@@ -115,7 +115,7 @@ export default {
 			}
 			if(that.parmloca.pageseq === 0) {
 				// 二要素验证
-				let result = await that.ajaxRequest(that, that.routes.api_verifyBankCard, that.parmform, 'post');
+				let result = await that.Requests(that, that.routes.api_verifyBankCard, that.parmform, 'post');
 				that.parmloca.pageseq = 1;
 			}
 			if (that.parmloca.pageseq != 1 || !that.parmloca.submitBtn2) {
@@ -127,7 +127,7 @@ export default {
 			// 提交
 			if (frmResult) {
 				that.submitLocaing = 0;
-				let result = await that.ajaxRequest(that, that.routes.api_bindBankCard, that.parmform, 'post');
+				let result = await that.Requests(that, that.routes.api_bindBankCard, that.parmform, 'post');
 				console.log(result);
 				uni.navigateBack({
 				})
@@ -142,7 +142,7 @@ export default {
 				return;
 			}
 			that.parmloca.smsbtn = false;
-			let result = await that.ajaxRequest(that, that.routes.api_sendSms, {phone: that.parmform.phone}, "post").then(res => {
+			let result = await that.Requests(that, that.routes.api_sendSms, {phone: that.parmform.phone}, "post").then(res => {
 			}).catch(err => {
 				that.parmloca.smsbtn = true;
 			});
@@ -175,7 +175,7 @@ export default {
 			uni.showLoading({
 				title: "获取中..."
 			})
-			let result = await that.ajaxRequest(that, that.routes.api_getBankAccount, {bankCard: that.parmform.bankCard}, "post");
+			let result = await that.Requests(that, that.routes.api_getBankAccount, {bankCard: that.parmform.bankCard}, "post");
 			that.dd("银行卡和开户行信息", result)
 			if(result.data.AccountType !== 1) {
 				uni.showToast({

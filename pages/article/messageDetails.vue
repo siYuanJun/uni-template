@@ -31,7 +31,7 @@
 				key: 'content',
 				success: function(res) {
 					that.parmdata = res.data
-					that.ajaxRequest(that, that.api_updateMessageStatus+"/"+res.data.anntId).then(ress => {
+					that.Requests(that, that.api_updateMessageStatus+"/"+res.data.anntId).then(ress => {
 						console.log(ress)
 					})
 					that.title = that.parmdata.title ? that.parmdata.title : '详情'

@@ -19,7 +19,7 @@ export default {
 			if (uni.getStorageSync("extConfig")) {
 				this.extConfig = uni.getStorageSync("extConfig");
 			} else {
-				await this.ajaxRequest(this, this.routes.api_selectList, {}).then(res => {
+				await this.Requests(this, this.routes.api_selectList, {}).then(res => {
 					this.extConfig = res.data;
 					this.dd("获取配置初始化数据", this.extConfig)
 					uni.setStorageSync("extConfig", this.extConfig)
@@ -36,7 +36,7 @@ export default {
 			}
 		},
 		async getUserInfo(that) {
-			await this.ajaxRequest(this, this.routes.api_getUserInfo, {}, 'post').then(res => {
+			await this.Requests(this, this.routes.api_getUserInfo, {}, 'post').then(res => {
 				this.dd("用户信息", res.data)
 				that.userInfo = res.data ? res.data : {}
 				uni.setStorageSync("userInfo", res.data)
@@ -157,7 +157,7 @@ export default {
 			uni.navigateBack({})
 		},
 		// 发送数据请求
-		ajaxRequest(that, url, formdata, methods) {
+		Requests(that, url, formdata, methods) {
 			var formdata = formdata ? formdata : {},
 				methods = methods ? methods : "get";
 			if (methods == "get") {

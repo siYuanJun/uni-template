@@ -2,37 +2,47 @@
 <template>
 	<view class="content">
 		<view class="text-black text-xxl text-center padding-xl">初始化成功</view>
+		<seeimg ref="mychild" />
 	</view>
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-			parmdata: {},
-			parmform: {},
-			parmloca: {}
-		};
-	},
-	onLoad() {
-		let that = this;
-		// that.getData()
-	},
-	methods: {
-		async getData() {
-			let that = this;
-			let result = await that.ajaxRequest(that, that.routes.api_content, that.parmdata);
-			console.log(result);
-			// uni.setNavigationBarTitle({
-			// 	title: res.name
-			// })
+	import seeimg from '@/components/xw-seeimg/index'
+	export default {
+		components: {
+			seeimg
 		},
-		onPullDownRefresh() {
-			console.log('refresh');
+		data() {
+			return {
+				parmdata: {},
+				parmform: {},
+				parmloca: {}
+			};
 		},
-		onReachBottom() {
-			console.log('onReachBottom');
+		onLoad() {
+			this.$nextTick(function() {
+				this.showimg()
+			})
+		},
+		methods: {
+			showimg() {
+				this.$refs.mychild.onImg(
+					"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2384030035,3537130422&fm=26&gp=0.jpg");
+			},
+			async getData() {
+				let that = this;
+				let result = await that.Requests(that, that.routes.api_content, that.parmdata);
+				console.log(result);
+				// uni.setNavigationBarTitle({
+				// 	title: res.name
+				// })
+			},
+			onPullDownRefresh() {
+				console.log('refresh');
+			},
+			onReachBottom() {
+				console.log('onReachBottom');
+			}
 		}
-	}
-};
+	};
 </script>

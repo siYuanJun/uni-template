@@ -94,7 +94,7 @@ export default {
 			let parmform = {
 				tids: item.tid
 			};
-			let result = await that.ajaxRequest(that, that.routes.api_collect, parmform, 'post');
+			let result = await that.Requests(that, that.routes.api_collect, parmform, 'post');
 			that.list[index].isCollect = !that.list[index].isCollect;
 			// 必须通知父级更换状态
 			that.$parent.parmdata.taskGrid = that.list;
