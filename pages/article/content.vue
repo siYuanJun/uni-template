@@ -1,9 +1,4 @@
 <style lang="less">
-.parm-content {
-	margin: 30upx;
-	font-size: 28upx;
-	line-height: 1.5;
-}
 </style>
 
 <template>
@@ -42,7 +37,7 @@ export default {
 		},
 		async getData() {
 			let that = this;
-			let result = await that.Requests(that, that.routes.api_content, that.parmdata);
+			let result = await that.tools.Requests(that, that.routes.api_content, that.parmdata);
 			console.log(result);
 			// uni.setNavigationBarTitle({
 			// 	title: res.name

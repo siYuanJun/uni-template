@@ -1,7 +1,7 @@
 <style lang="less"></style>
 <template>
 	<view class="content">
-		<view class="text-black text-xxl text-center padding-xl">初始化成功</view>
+		<view class="mt-sm">初始化成功</view>
 		<seeimg ref="mychild" />
 	</view>
 </template>

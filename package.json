@@ -1,0 +1,25 @@
+{
+  "name": "uni-moban",
+  "version": "1.0.0",
+  "description": "template",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siYuanJun/uni-moban.git"
+  },
+  "author": "siYuan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/siYuanJun/uni-moban/issues"
+  },
+  "homepage": "https://github.com/siYuanJun/uni-moban#readme",
+  "dependencies": {
+    "@tailwindcss/postcss7-compat": "^2.2.7",
+    "autoprefixer": "^9.8.6",
+    "postcss": "^7.0.36",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
+  }
+}

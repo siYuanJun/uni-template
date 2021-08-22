@@ -1,7 +1,7 @@
 <script>
 	import Vue from 'vue'
 	export default {
-		onLaunch: function() {
+		onLaunch() {
 			uni.getSystemInfo({
 				success: function(e) {
 					// #ifndef MP
@@ -26,63 +26,8 @@
 					// #endif
 				}
 			})
-			//获取用户地理位置权限
-			Vue.prototype.getPermission = function(obj) {
-				uni.getLocation({
-					success: function(res) {
-						obj.useraddr = res.address //调用成功直接设置地址
-					},
-					fail: function() {
-						uni.getSetting({
-							success: function(res) {
-								var statu = res.authSetting;
-								if (!statu['scope.userLocation']) {
-									uni.showModal({
-										title: '是否授权当前位置',
-										content: '需要获取您的地理位置，请确认授权，否则地图功能将无法使用',
-										success: function(tip) {
-											if (tip.confirm) {
-												uni.openSetting({
-													success: function(data) {
-														if (data.authSetting["scope.userLocation"] === true) {
-															uni.showToast({
-																title: '授权成功',
-																icon: 'none',
-																duration: 1000
-															})
-															//授权成功之后，再调用chooseLocation选择地方
-															uni.getLocation({
-																success: function(res) {
-																	obj.useraddr = res.address //调用成功直接设置地址
-																},
-															})
-														} else {
-															uni.showToast({
-																title: '授权失败',
-																icon: 'none',
-																duration: 1000
-															})
-														}
-													}
-												})
-											}
-										}
-									})
-								}
-							},
-							fail: function(res) {
-								uni.showToast({
-									title: '调用授权窗口失败',
-									icon: 'none',
-									duration: 1000
-								})
-							}
-						})
-					}
-				})
-			}
 		},
-		onShow: function() {
+		onShow() {
 			console.log('App Show')
 			// #ifdef MP-WEIXIN
 			if (uni.canIUse('getUpdateManager')) {
@@ -116,7 +61,7 @@
 			}
 			// #endif
 		},
-		onHide: function() {
+		onHide() {
 			console.log('App Hide')
 		},
 	}
