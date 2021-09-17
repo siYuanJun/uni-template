@@ -6,12 +6,7 @@ import fun from "@/common/function";
 import cuCustom from "@/components/colorui/components/cu-custom";
 import pagePull from "@/mixin/Public";
 import share from "@/mixin/Share";
-import "@/static/css/tailwind.less"
-
-// git commit -m "feat: code" // 新增一个功能
-// git commit -m "fix: code" // 修复一个 Bug
-// git commit -m "perf: code" // 改善性能
-// git commit -m "docs: commit" // 文档变更
+import "@/static/css/tailwind.css"
 
 Vue.prototype.webTitle = init.config.title;
 Vue.prototype.webVersion = init.config.version;

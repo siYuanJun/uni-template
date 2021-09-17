@@ -1,25 +1,46 @@
 {
-  "name": "uni-moban",
-  "version": "1.0.0",
-  "description": "template",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/siYuanJun/uni-moban.git"
-  },
-  "author": "siYuan",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/siYuanJun/uni-moban/issues"
-  },
-  "homepage": "https://github.com/siYuanJun/uni-moban#readme",
-  "dependencies": {
-    "@tailwindcss/postcss7-compat": "^2.2.7",
-    "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
-  }
+    "name": "uni-start",
+    "author": "siYuan",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "test": "jest",
+        "lint": "eslint --ext .js,.vue .",
+        "lint-fix": "eslint --fix --ext .js --ext .jsx --ext .vue pages components middleware plugins store",
+        "prepare": "husky install"
+    },
+    "lint-staged": {
+        "*.{vue,js,ts}": "eslint --fix"
+    },
+    "dependencies": {
+        "eslint-plugin-vue": "^7.17.0",
+        "node-sass": "^6.0.1"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^13.1.0",
+        "@commitlint/config-conventional": "^13.1.0",
+        "@tailwindcss/postcss7-compat": "^2.2.14",
+        "autoprefixer": "^9.8.6",
+        "commitizen": "^4.2.4",
+        "cz-conventional-changelog": "^3.3.0",
+        "eslint": "^7.32.0",
+        "eslint-config-airbnb-base": "^14.2.1",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "husky": "^7.0.0",
+        "lint-staged": "^11.1.2",
+        "postcss": "^7.0.36",
+        "postcss-class-rename": "^1.0.1",
+        "postcss-comment": "^2.0.0",
+        "postcss-import": "^12.0.0",
+        "postcss-loader": "^6.1.1",
+        "postcss-remove-selectors": "^2.0.1",
+        "prettier": "^2.4.0",
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.14"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
 }
