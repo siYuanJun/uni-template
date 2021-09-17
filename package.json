@@ -4,13 +4,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "test": "jest",
-        "lint": "eslint --ext .js,.vue .",
-        "lint-fix": "eslint --fix --ext .js --ext .jsx --ext .vue pages components middleware plugins store",
         "prepare": "husky install"
-    },
-    "lint-staged": {
-        "*.{vue,js,ts}": "eslint --fix"
     },
     "dependencies": {
         "eslint-plugin-vue": "^7.17.0",
@@ -23,12 +17,7 @@
         "autoprefixer": "^9.8.6",
         "commitizen": "^4.2.4",
         "cz-conventional-changelog": "^3.3.0",
-        "eslint": "^7.32.0",
-        "eslint-config-airbnb-base": "^14.2.1",
-        "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-prettier": "^4.0.0",
         "husky": "^7.0.0",
-        "lint-staged": "^11.1.2",
         "postcss": "^7.0.36",
         "postcss-class-rename": "^1.0.1",
         "postcss-comment": "^2.0.0",
