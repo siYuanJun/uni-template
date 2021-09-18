@@ -1,8 +1,5 @@
-
 <template>
-    <view class="content">
-        <view class="text-lg mt-xl text-center">初始化成功</view>
-    </view>
+    <view class="content"><view class="text-lg mt-xl text-center">初始化成功</view></view>
 </template>
 
 <script>
@@ -15,8 +12,7 @@ export default {
             parmloca: {},
         }
     },
-    onLoad() {
-    },
+    onLoad() {},
     methods: {
         async getData() {
             const that = this
@@ -35,5 +31,4 @@ export default {
     },
 }
 </script>
-<style lang="less">
-</style>
+<style lang="less"></style>

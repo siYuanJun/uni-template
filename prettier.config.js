@@ -39,12 +39,20 @@ module.exports = {
     endOfLine: 'auto',
     // default:"auto"
     embeddedLanguageFormatting: 'auto',
-    overrides: [
-        {
-            files: '*.md',
-            options: {
-                tabWidth: 4,
-            },
+    overrides: [{
+        files: '*.md',
+        options: {
+            tabWidth: 4,
         },
-    ],
+    }, ],
+    parsers: {
+        ".jsx": "flow",
+        ", scss": "5c55",
+        ".ts": "typescript",
+        ".less": "c55",
+        ".vue": "vue",
+        ".nvue": "vue",
+        ".ux": "vue",
+        ".yml": "yaml",
+    },
 }
