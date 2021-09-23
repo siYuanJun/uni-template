@@ -83,7 +83,7 @@ export default {
         getData(that, page, type) {
             that.parmform.pageNo = page != undefined ? page : 1;
             that.parmform.userSystemId = that.getu('userSystemId');
-            that.Requests(that, that.api_getMessageList, that.parmform, 'get', type).then(res => {
+            that.$tools.requests(that, that.api_getMessageList, that.parmform, 'get', type).then(res => {
                 const data = res.result.records;
                 console.log(data);
                 if (type == 'add') {

@@ -234,7 +234,7 @@ export default {
             };
             parmform.encryptedData = userdetail.encryptedData;
             parmform.iv = userdetail.iv;
-            const result = await that.Requests(that, that.routes.api_wxlogin, parmform, 'post');
+            const result = await that.$tools.requests(that, that.routes.api_wxlogin, parmform, 'post');
             that.dd('登陆请求返回数据', result);
             const {data} = result;
             if (!data) {

@@ -33,7 +33,7 @@ export default class jiedan extends Vue {
         that.parmform.pageNo = page != undefined ? page : 1
         that.parmform.userSystemId = that.getu('userSystemId')
         that.parmloca.loadMoreStatus = 1
-        let result = await that.Requests(that, that.routes.api_index, that.parmform, 'get')
+        let result = await that.$tools.requests(that, that.routes.api_index, that.parmform, 'get')
         var data = result.result.records
         console.log(data)
         if (type == 'add') {

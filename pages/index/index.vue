@@ -16,7 +16,7 @@ export default {
     methods: {
         async getData() {
             const that = this
-            const result = await that.Requests(that, that.routes.api_content, that.parmdata)
+            const result = await that.$tools.requests(that, that.routes.api_content, that.parmdata)
             console.log(result)
             // uni.setNavigationBarTitle({
             // 	title: res.name

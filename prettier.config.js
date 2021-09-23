@@ -47,9 +47,9 @@ module.exports = {
     }, ],
     parsers: {
         ".jsx": "flow",
-        ", scss": "5c55",
+        ".scss": "scss",
         ".ts": "typescript",
-        ".less": "c55",
+        ".less": "less",
         ".vue": "vue",
         ".nvue": "vue",
         ".ux": "vue",

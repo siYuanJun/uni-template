@@ -30,7 +30,7 @@ export default {
             key: 'content',
             success: (res) => {
                 that.parmdata = res.data
-                that.Requests(that, `${that.api_updateMessageStatus}/${res.data.anntId}`).then((ress) => {
+                that.$tools.requests(that, `${that.api_updateMessageStatus}/${res.data.anntId}`).then((ress) => {
                     console.log(ress)
                 })
                 that.title = that.parmdata.title ? that.parmdata.title : '详情'

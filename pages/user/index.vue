@@ -16,7 +16,7 @@ export default {
     },
     onLoad() {
         const that = this;
-        that.Requests(that, that.routes.api_index);
+        that.$tools.requests(that, that.routes.api_index);
     },
     methods: {
         onPullDownRefresh() {
