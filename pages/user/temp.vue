@@ -34,7 +34,7 @@ page {
                     <button class="cu-btn bg-red sm round">打卡</button>
                 </view>
             </view>
-            <view class="padding-lr-sm padding-tb-xs shadow-lg" v-for="(item, index) in parmdata" :key="index" @tap="hrefSave(item, '/pages/article/messageDetails')">
+            <view class="padding-lr-sm padding-tb-xs shadow-lg" v-for="(item, index) in paramData" :key="index" @tap="hrefSave(item, '/pages/article/messageDetails')">
                 <view class="bg-white padding radius-df flex justify-between align-center">
                     <view class="box-icon icon1"></view>
                     <view class="margin-left flex-sub">
@@ -52,7 +52,7 @@ page {
                     </view>
                 </view>
             </view>
-            <mixLoadMore :status="parmloca.loadMoreStatus"></mixLoadMore>
+            <mixLoadMore :status="paramLoca.loadMoreStatus"></mixLoadMore>
         </view>
     </view>
 </template>
@@ -64,12 +64,12 @@ export default {
     data() {
         return {
             title: '消息',
-            parmform: {
+            paramForm: {
                 pageNo: 1,
                 pageSize: 10,
             },
-            parmdata: [],
-            parmloca: {
+            paramData: [],
+            paramLoca: {
                 loadMoreStatus: 0,
             },
         };
@@ -81,20 +81,20 @@ export default {
     onShow() {},
     methods: {
         getData(that, page, type) {
-            that.parmform.pageNo = page != undefined ? page : 1;
-            that.parmform.userSystemId = that.getu('userSystemId');
-            that.$tools.requests(that, that.api_getMessageList, that.parmform, 'get', type).then(res => {
+            that.paramForm.pageNo = page != undefined ? page : 1;
+            that.paramForm.userSystemId = that.getu('userSystemId');
+            that.$tools.requests(that, that.api_getMessageList, that.paramForm, 'get', type).then(res => {
                 const data = res.result.records;
                 console.log(data);
                 if (type == 'add') {
                     data.forEach(item => {
-                        that.parmdata.push(item);
+                        that.paramData.push(item);
                     });
                 } else {
-                    that.parmdata = data;
+                    that.paramData = data;
                 }
                 if (data.length < 10) {
-                    that.parmloca.loadMoreStatus = 2;
+                    that.paramLoca.loadMoreStatus = 2;
                 }
             });
         },
@@ -106,8 +106,8 @@ export default {
         onReachBottom() {
             console.log('onReachBottom');
             const that = this;
-            that.parmform.pageNo++;
-            that.getData(that, that.parmform.pageNo, 'add');
+            that.paramForm.pageNo++;
+            that.getData(that, that.paramForm.pageNo, 'add');
         },
     },
 }

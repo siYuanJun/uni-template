@@ -87,17 +87,17 @@ export default {
 		},
 		// 选中单条数据操作
 		radioChecked(index, checked) {
-			this.$set(this.$parent.parmdata.taskGrid[index], "checked", !checked)
+			this.$set(this.$parent.paramData.taskGrid[index], "checked", !checked)
 		},
 		async collectBtn(item, index) {
 			let that = this;
-			let parmform = {
+			let paramForm = {
 				tids: item.tid
 			};
-			let result = await that.$tools.requests(that, that.routes.api_collect, parmform, 'post');
+			let result = await that.$tools.requests(that, that.routes.api_collect, paramForm, 'post');
 			that.list[index].isCollect = !that.list[index].isCollect;
 			// 必须通知父级更换状态
-			that.$parent.parmdata.taskGrid = that.list;
+			that.$parent.paramData.taskGrid = that.list;
 			that.$parent.collectCalcu(item, index)
 			that.dd('收藏返回', result);
 		}

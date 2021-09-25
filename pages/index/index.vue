@@ -7,9 +7,9 @@ export default {
     components: {},
     data() {
         return {
-            parmdata: {},
-            parmform: {},
-            parmloca: {},
+            paramData: {},
+            paramForm: {},
+            paramLoca: {},
         }
     },
     onLoad() {},

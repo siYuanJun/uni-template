@@ -103,7 +103,7 @@ export default {
             extensions: 'base',
             success: function (data) {
                 console.log(data)
-                var parmloca = {
+                var paramLoca = {
                         map: {
                             latitude: '',
                             longitude: '',
@@ -130,14 +130,14 @@ export default {
                 console.log(points.length)
                 var latlong = Math.round((points.length / 5) * 4)
                 // console.log(latlong)
-                parmloca.map.scale = points.length > 1000 ? 6 : 10
+                paramLoca.map.scale = points.length > 1000 ? 6 : 10
                 //设置polyline属性，将路线显示出来,计算出中心点坐标
-                parmloca.map.latitude = points[latlong].latitude
-                parmloca.map.longitude = points[latlong].longitude
+                paramLoca.map.latitude = points[latlong].latitude
+                paramLoca.map.longitude = points[latlong].longitude
                 // 配置行程信息线条样式
-                contentqd = that.parmdata.qidian
-                contentzd = that.parmdata.zhongdian
-                parmloca.map.polyline = [
+                contentqd = that.paramData.qidian
+                contentzd = that.paramData.zhongdian
+                paramLoca.map.polyline = [
                     {
                         points: points,
                         color: '#FF5146',
@@ -147,7 +147,7 @@ export default {
                     },
                 ]
                 // 配置起点终点
-                parmloca.map.markers = [
+                paramLoca.map.markers = [
                     {
                         id: 1,
                         title: '起点：',
@@ -181,7 +181,7 @@ export default {
                         },
                     },
                 ]
-                that.parmloca = parmloca
+                that.paramLoca = paramLoca
                 uni.hideLoading({})
             },
             fail: function (error) {
@@ -207,7 +207,7 @@ export default {
                 extensions: 'base',
                 success: function (data) {
                     console.log('进行划线规划')
-                    var parmloca = {
+                    var paramLoca = {
                         map: {
                             scale: 10,
                             latitude: '',
@@ -231,23 +231,23 @@ export default {
                     var latlong = Math.round((points.length / 5) * 4)
                     console.log(points.length)
                     if (points.length > 1500) {
-                        parmloca.map.scale = 6
+                        paramLoca.map.scale = 6
                     }
                     if (points.length > 4000) {
-                        parmloca.map.scale = 4
+                        paramLoca.map.scale = 4
                     }
                     //设置polyline属性，将路线显示出来,计算出中心点坐标
-                    parmloca.map.latitude = points[latlong].latitude
-                    parmloca.map.longitude = points[latlong].longitude
+                    paramLoca.map.latitude = points[latlong].latitude
+                    paramLoca.map.longitude = points[latlong].longitude
                     // 配置行程信息线条样式
-                    parmloca.map.polyline = {
+                    paramLoca.map.polyline = {
                         points: points,
                         color: '#FF5146',
                         borderColor: '#FF5146',
                         width: 8,
                         arrowLine: true,
                     }
-                    resolve(parmloca)
+                    resolve(paramLoca)
                 },
                 fail: function (error) {
                     console.log('获取失败，调用弹框打开授权配置')
@@ -642,7 +642,7 @@ export default {
         query
             .select('#' + fieid)
             .boundingClientRect(function (res) {
-                that.parmloca[fieid] = res
+                that.paramLoca[fieid] = res
             })
             .exec()
     },

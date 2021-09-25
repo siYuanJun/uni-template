@@ -227,14 +227,14 @@ export default {
                 that.submitLoading = 1;
                 return;
             }
-            const parmform = {
+            const paramForm = {
                 code: userdetail.code,
                 encryptedData: '',
                 iv: '',
             };
-            parmform.encryptedData = userdetail.encryptedData;
-            parmform.iv = userdetail.iv;
-            const result = await that.$tools.requests(that, that.routes.api_wxlogin, parmform, 'post');
+            paramForm.encryptedData = userdetail.encryptedData;
+            paramForm.iv = userdetail.iv;
+            const result = await that.$tools.requests(that, that.routes.api_wxlogin, paramForm, 'post');
             that.dd('登陆请求返回数据', result);
             const {data} = result;
             if (!data) {

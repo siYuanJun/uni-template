@@ -27,7 +27,7 @@
         </cu-custom>
         <view class="padding-top-xs padding-bottom">
             <view class="padding-lr-sm padding-tb-xs shadow-lg"
-                  v-for="(item,index) in parmdata.records" :key="index" @tap="hrefSave(item, '/pages/article/messageDetails')">
+                  v-for="(item,index) in paramData.records" :key="index" @tap="hrefSave(item, '/pages/article/messageDetails')">
                 <view class="bg-white padding radius-df flex justify-between align-center">
                     <view class="box-icon icon1"></view>
                     <view class="margin-left flex-sub">
@@ -51,7 +51,7 @@
                     </view>
                 </view>
             </view>
-            <mixLoadMore :status="parmloca.loadMoreStatus"></mixLoadMore>
+            <mixLoadMore :status="paramLoca.loadMoreStatus"></mixLoadMore>
         </view>
     </view>
 </template>
@@ -64,14 +64,14 @@ export default {
         return {
             title: "消息",
             api_getMessageList: "/user/getMessageList",
-            parmform: {
+            paramForm: {
                 pageNo: 1,
                 pageSize: 10,
             },
-            parmdata: {
+            paramData: {
                 records: {},
             },
-            parmloca: {
+            paramLoca: {
                 loadMoreStatus: 0,
             },
         }
@@ -84,20 +84,20 @@ export default {
     },
     methods: {
         init(that, page, type) {
-            that.parmform.pageNo = page != undefined ? page : 1
-            that.parmform.userSystemId = that.getu('userSystemId')
-            that.$tools.requests(that, that.api_getMessageList, that.parmform, 'get', type).then(res => {
+            that.paramForm.pageNo = page != undefined ? page : 1
+            that.paramForm.userSystemId = that.getu('userSystemId')
+            that.$tools.requests(that, that.api_getMessageList, that.paramForm, 'get', type).then(res => {
                 const data = res.result.records
                 console.log(data)
                 if(type == "add") {
                     data.forEach(item => {
-                        that.parmdata.records.push(item)
+                        that.paramData.records.push(item)
                     })
                 } else {
-                    that.parmdata.records = data
+                    that.paramData.records = data
                 }
                 if(data.length < 10) {
-                    that.parmloca.loadMoreStatus = 2
+                    that.paramLoca.loadMoreStatus = 2
                 }
             })
         },
@@ -109,8 +109,8 @@ export default {
         onReachBottom() {
             console.log('onReachBottom')
             const that = this
-				 that.parmform.pageNo++
-            that.init(that, that.parmform.pageNo, 'add')
+				 that.paramForm.pageNo++
+            that.init(that, that.paramForm.pageNo, 'add')
         },
     },
 }

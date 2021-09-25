@@ -9,9 +9,9 @@
 export default {
     data() {
         return {
-            parmdata: {},
-            parmform: {},
-            parmloca: {},
+            paramData: {},
+            paramForm: {},
+            paramLoca: {},
         };
     },
     onLoad() {

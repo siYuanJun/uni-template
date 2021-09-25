@@ -6,7 +6,7 @@
             </block>
         </cu-custom>
         <view class="parse-content">
-            <u-parse :content="parmdata.msgContent" @preview="preview" @navigate="navigate"></u-parse>
+            <u-parse :content="paramData.msgContent" @preview="preview" @navigate="navigate"></u-parse>
         </view>
     </view>
 </template>
@@ -19,9 +19,9 @@ export default {
     },
     data() {
         return {
-            parmform: {},
-            parmdata: {},
-            parmloca: {},
+            paramForm: {},
+            paramData: {},
+            paramLoca: {},
         }
     },
     onLoad(e) {
@@ -29,11 +29,11 @@ export default {
         uni.getStorage({
             key: 'content',
             success: (res) => {
-                that.parmdata = res.data
+                that.paramData = res.data
                 that.$tools.requests(that, `${that.api_updateMessageStatus}/${res.data.anntId}`).then((ress) => {
                     console.log(ress)
                 })
-                that.title = that.parmdata.title ? that.parmdata.title : '详情'
+                that.title = that.paramData.title ? that.paramData.title : '详情'
             },
         })
     },

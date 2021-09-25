@@ -1,6 +1,6 @@
 <template>
     <view class="parm-content">
-        <u-parse :content="parmdata.content" @preview="preview" @navigate="navigate"></u-parse>
+        <u-parse :content="paramData.content" @preview="preview" @navigate="navigate"></u-parse>
     </view>
 </template>
 
@@ -12,9 +12,9 @@ export default {
     },
     data() {
         return {
-            parmform: {},
-            parmdata: {},
-            parmloca: {
+            paramForm: {},
+            paramData: {},
+            paramLoca: {
                 imageProp: {
                     mode: 'widthFix',
                 },
@@ -23,7 +23,7 @@ export default {
     },
     onLoad(e) {
         const that = this
-        that.parmform.id = e.id
+        that.paramForm.id = e.id
         that.getData()
     },
     methods: {
@@ -36,7 +36,7 @@ export default {
         },
         async getData() {
             const that = this
-            const result = await that.tools.Requests(that, that.routes.api_content, that.parmdata)
+            const result = await that.tools.Requests(that, that.routes.api_content, that.paramData)
             console.log(result)
             // uni.setNavigationBarTitle({
             // 	title: res.name

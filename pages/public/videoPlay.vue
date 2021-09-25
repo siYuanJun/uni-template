@@ -6,12 +6,12 @@
             </block>
         </cu-custom>
         <view class="parse-content">
-            <!-- <video class="videoDom" :src="parmdata.url" id="video1" :controls="true" :show-fullscreen-btn="false" object-fit="fill"
+            <!-- <video class="videoDom" :src="paramData.url" id="video1" :controls="true" :show-fullscreen-btn="false" object-fit="fill"
 			:style="'width: 100%; height: calc(100vh - '+videoHeight+'px);'"></video> -->
             <yy-video-player
                 class="videoDom"
                 :auto-play="true"
-                :url="parmdata.url"
+                :url="paramData.url"
                 :poster="''"
                 :danmu-list="[]"
                 :showDownloadBtn="false"
@@ -31,11 +31,11 @@ export default {
     data() {
         return {
             title: '视频',
-            parmform: {},
-            parmdata: {
+            paramForm: {},
+            paramData: {
                 url: '',
             },
-            parmloca: {},
+            paramLoca: {},
             videoHeight: '',
             CustomBar: this.CustomBar,
             StatusBar: this.StatusBar,
@@ -47,7 +47,7 @@ export default {
         uni.getStorage({
             key: 'content',
             success(res) {
-                that.parmdata.url = res.data;
+                that.paramData.url = res.data;
             },
         });
         this.videoHeight = this.CustomBar;
