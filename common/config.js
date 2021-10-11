@@ -12,7 +12,7 @@ const config = {
     debug: false,
     // 系统版本号
     version: '0.0.1',
-    //  高德地图
+    // 高德地图
     amap: {
         WebKey: '', // WEB秘钥
         XcxKey: '', // 小程序秘钥

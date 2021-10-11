@@ -10,6 +10,7 @@ import '@/static/css/tailwind.css'
 Vue.prototype.$webTitle = init.config.title
 Vue.prototype.$webVersion = init.config.version
 Vue.prototype.$webTokey = init.config.webTokey
+Vue.prototype.$http = init.http
 Vue.prototype.$routes = init.routes
 Vue.prototype.$tools = fun
 
