@@ -3,8 +3,7 @@
 const apiPrefix = '/api'
 
 export const routeApi = {
-	'api_index': '/api_index',
-	'api_user': '/user',
+	'api_index': '/index',
 }
 
 for (let key in routeApi) {

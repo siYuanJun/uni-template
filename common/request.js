@@ -43,8 +43,9 @@ test.interceptor.response((response) => { /* 请求之后拦截器 */
 const http = new Request()
 
 http.setConfig((config) => { /* 设置全局配置 */
-  config.baseUrl = 'https://www.lvtcn.com' /* 根域名不同 */
+  config.baseUrl = '' /* 根域名不同 */
   config.header = {
+    'content-type': 'application/x-www-form-urlencoded',
     ...config.header,
   }
   return config
@@ -61,10 +62,9 @@ http.validateStatus = (response) => {
 
 http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
   const params = {
-      token: 'token'
+      token: uni.getStorageSync('userToken')
   }
   if (config.method == "GET") {
-      config.header['content-type'] = 'application/x-www-form-urlencoded'
       config.params = {
           ...config.params,
           ...params
@@ -76,7 +76,7 @@ http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
           ...params
       }
   }
-  console.log(JSON.stringify(config))
+  // console.log(JSON.stringify(config))
   /*
   if (!token) { // 如果token不存在，调用cancel 会取消本次请求，但是该函数的catch() 仍会执行
     cancel('token 不存在') // 接收一个参数，会传给catch((err) => {}) err.errMsg === 'token 不存在'
@@ -85,10 +85,26 @@ http.interceptor.request((config, cancel) => { /* 请求之前拦截器 */
   return config
 })
 
-http.interceptor.response((response) => { /* 请求之后拦截器 */
-  return response
-}, (response) => { // 请求错误做点什么
-  return response
+http.interceptor.response((res) => { /* 请求之后拦截器 */
+  console.log("httpRes-" + res.config.url, res)
+  return res
+}, (err) => { // 请求错误做点什么
+    console.log("httpErr-" + err.config.url, err)
+    if(err.statusCode === 401) {
+        uni.reLaunch({
+            url: '/pages/public/login'
+        })
+        return
+    }
+    if(err.data) {
+        if(err.data.msg) {
+            uni.showToast({
+                title: err.data.msg,
+                icon: 'none'
+            })
+        }
+    }
+  return err
 })
 
 export {

@@ -11,7 +11,7 @@ const config = {
     // 是否开启调试模式
     debug: false,
     // 系统版本号
-    version: '0.0.1',
+    version: '1.0.0',
     // 高德地图
     amap: {
         WebKey: '', // WEB秘钥
