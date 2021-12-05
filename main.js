@@ -3,9 +3,9 @@ import App from './App'
 import init from '@/common/config'
 import fun from '@/common/function'
 import cuCustom from '@/components/colorui/components/cu-custom'
+import cuFooter from '@/components/colorui/components/cu-footer'
 import pagePull from '@/mixin/Public'
 import share from '@/mixin/Share'
-import '@/static/css/tailwind.css'
 
 Vue.prototype.$webTitle = init.config.title
 Vue.prototype.$webVersion = init.config.version
@@ -16,6 +16,7 @@ Vue.prototype.$tools = fun
 
 // 顶部自定义导航
 Vue.component('cuCustom', cuCustom)
+Vue.component('cuFooter', cuFooter)
 
 Vue.mixin(share)
 Vue.mixin(pagePull)

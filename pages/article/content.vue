@@ -36,7 +36,7 @@ export default {
         },
         async getData() {
             const that = this
-            const result = await that.tools.Requests(that, that.routes.api_content, that.paramData)
+            const result = await that.$tools.requests(that.$routes.api_index, that.paramData)
             console.log(result)
             // uni.setNavigationBarTitle({
             // 	title: res.name

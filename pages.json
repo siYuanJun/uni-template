@@ -1,68 +1,56 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "项目标题",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleView": false
-				}
-			}
-		},
-		{
-			"path": "pages/user/index",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/article/content",
-			"style": {
-				"navigationBarTitleText": "详情"
-			}
-		},
-		{
-			"path": "pages/public/login",
-			"style": {
-				"navigationBarTitleText": "微信授权"
-			}
-		}
-	],
+    "pages": [
+        {
+            "path": "pages/index/index",
+            "style": {
+            	"navigationBarTitleText": "",
+            	"navigationStyle": "custom",
+            	"app-plus": {
+            		"titleView": false
+            	}
+            }
+        },
+        {
+        	"path": "pages/public/login",
+        	"style": {
+        		"navigationBarTitleText": "微信授权"
+        	}
+        }
+    ],
+    "subPackages": [{
+        "root": "pagesA",
+        "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+        	{
+        		"path": "home/home",
+        		"style": {
+        			"navigationBarTitleText": "工作台",
+                    "navigationStyle": "custom"
+        			// "enablePullDownRefresh": true
+        		}
+        	}
+        ]
+    }],
 	"condition": { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)
 		"list": [{
-			"name": "",
-			"path": "",
+			"name": "企业-工作台",
+			"path": "pagesA/home/home",
 			"query": ""
 		}]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "title",
-		"navigationBarBackgroundColor": "#58C3E0",
+		"navigationBarBackgroundColor": "#FF7701",
 		// "navigationStyle": "custom",
 		"backgroundColor": "#EEEEEE"
 	},
-	"tabBar": {
-		"color": "#999999",
-		"selectedColor": "#000000",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"list": [{
-				"pagePath": "pages/index/index",
-				"iconPath": "/static/images/nav/home-icon.png",
-				"selectedIconPath": "/static/images/nav/home-icon-cur.png",
-				"text": "首页"
-			},
-			{
-				"pagePath": "pages/article/content",
-				"iconPath": "/static/images/nav/wode-icon.png",
-				"selectedIconPath": "/static/images/nav/wode-icon-cur.png",
-				"text": "关于"
-			}
-		]
-	},
+	// "tabBar": {
+	// 	"color": "#999999",
+	// 	"selectedColor": "#000000",
+	// 	"borderStyle": "black",
+	// 	"backgroundColor": "#ffffff",
+	// 	"list": []
+	// },
 	"usingComponts": true
 }

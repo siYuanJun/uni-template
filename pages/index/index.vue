@@ -1,5 +1,14 @@
 <template>
-    <view class="content"><view class="text-lg mt-xl text-center">初始化成功</view></view>
+    <view class="">
+        <cu-custom>
+            <block slot="content">
+                <view class="">华中人才</view>
+            </block>
+        </cu-custom>
+        <view>
+            个人主页
+        </view>
+    </view>
 </template>
 
 <script>
@@ -16,7 +25,7 @@ export default {
     methods: {
         async getData() {
             const that = this
-            const result = await that.$tools.requests(that, that.routes.api_content, that.parmdata)
+            const result = await that.$tools.requests(that, that.$routes.api_index, that.parmdata)
             console.log(result)
             // uni.setNavigationBarTitle({
             // 	title: res.name

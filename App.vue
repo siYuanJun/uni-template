@@ -73,4 +73,6 @@ export default {
 @import './components/colorui/icon.css';
 @import './components/colorui/animation.css';
 @import './static/css/common.less';
+
+@---color-theme: #FF7701;
 </style>

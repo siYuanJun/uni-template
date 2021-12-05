@@ -16,3 +16,4 @@ jspm_packages/
 .next
 .nuxt
 /unpackage/*
+/package-lock.json

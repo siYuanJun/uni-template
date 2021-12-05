@@ -6,7 +6,7 @@
 					<text class="cuIcon-back"></text>
 					<slot name="backText"></slot>
 				</view>
-				<view class="content" :style="[{top:StatusBar + 'px'}]">
+				<view class="content text-white" :style="[{top:StatusBar + 'px'}]">
 					<slot name="content"></slot>
 				</view>
 				<slot name="right"></slot>
@@ -39,7 +39,7 @@
 		props: {
 			bgColor: {
 				type: String,
-				default: ''
+				default: 'header-bg'
 			},
 			isBack: {
 				type: [Boolean, String],
@@ -60,6 +60,8 @@
 	}
 </script>
 
-<style>
-
+<style lang="less">
+.header-bg {
+    background-color: #FF7701;
+}
 </style>
