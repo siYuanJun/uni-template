@@ -15,16 +15,19 @@ export default {
         this.getExtConfig()
     },
     onShow() {
-        if(this.getu('id')) {
-            if(uni.getStorageSync('notificationID') == '') {
-                let notificationID = setInterval(res => {
-                     this.getNotificationIndex()
-                 }, 5000)
-                 uni.setStorageSync('notificationID', notificationID)
-             } else {
-                 clearInterval(uni.getStorageSync('notificationID'))
-                 uni.removeStorageSync('notificationID')
-             }
+        if (this.getu('id')) {
+            // if (!uni.getStorageSync('notificationID')) {
+            //     let notificationID = setInterval(res => {
+            //         this.getNotificationIndex()
+            //     }, 5000)
+            //     console.log("mixin->创建消息定时器", notificationID)
+            //     uni.setStorageSync('notificationID', notificationID)
+            // } else {
+            //     let notificationID = uni.getStorageSync('notificationID')
+            //     console.log("mixin->销毁消息定时器", notificationID)
+            //     clearInterval(notificationID)
+            //     uni.removeStorageSync('notificationID')
+            // }
         }
     },
     methods: {
@@ -115,7 +118,10 @@ export default {
         },
         href(url) {
             uni.navigateTo({
-                url: url
+                url: url,
+                fail: (err) => {
+                    console.log(err)
+                }
             });
         },
         swithref(url) {

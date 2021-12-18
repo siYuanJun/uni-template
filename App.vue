@@ -63,6 +63,11 @@ export default {
     },
     onHide() {
         console.log('App Hide')
+        // 销毁消息定时器
+        let notificationID = uni.getStorageSync('notificationID')
+        console.log("app-销毁消息定时器", notificationID)
+        uni.removeStorageSync('notificationID')
+        clearInterval(notificationID)
     },
 }
 </script>

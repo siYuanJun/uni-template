@@ -1,10 +1,27 @@
-import init from '@/common/config'
-const {
-    amapsdk,
-    http
-} = init
+import { config } from '@/common/config'
+import {
+    judgePermission
+} from '@/common/permission'
 
 export default {
+    async getAddress(call) {
+        // #ifdef APP-PLUS
+        judgePermission('location')
+        // #endif
+        this.dd("开始定位")
+        let location = await this.getLocation().catch(err => {
+            this.getPermission()
+        })
+
+        try {
+            this.dd("定位", location)
+            let result = await this.getRegeoWeb(location.longitude + "," + location.latitude)
+            this.dd("转换中文", result)
+            call(result)
+        } catch (e) {
+            this.dd("定位失败", e)
+        }
+    },
     /*
      * 微信定位
      */
@@ -46,7 +63,7 @@ export default {
      * Web通过高德地图获取地址详细信息
      */
     getRegeoWeb(location) {
-        var url = "https://restapi.amap.com/v3/geocode/regeo?key=" + init.config.amap.WebServerKey + "&location=" + location +
+        var url = "https://restapi.amap.com/v3/geocode/regeo?key=" + config.amap.WebServerKey + "&location=" + location +
             "&poitype=&radius=1000&extensions=all&batch=false&roadlevel=0";
         return new Promise((resolve, reject) => {
             uni.request({
@@ -75,7 +92,7 @@ export default {
                 url: url,
                 method: "get",
                 data: {
-                    key: init.config.amapWebKey,
+                    key: config.amapWebKey,
                     address: address,
                 },
                 success: (res) => {
@@ -115,7 +132,7 @@ export default {
                 return
                 //获取token
                 uni.request({
-                    url: init.config.baseUrl + "/oss/getOssToken",
+                    url: config.baseUrl + "/oss/getOssToken",
                     success(resto) {
                         var data = resto.data
                         for (var i = 0; i < tempFilePaths.length; i++) {
@@ -132,7 +149,7 @@ export default {
                                     var data = JSON.parse(uploadFileRes.data)
                                     // qiniuUrl 是自己七牛的前缀
                                     callback({
-                                        pic: init.config.qiniuUrl + data.key,
+                                        pic: config.qiniuUrl + data.key,
                                         ...data
                                     });
                                 },
@@ -156,12 +173,9 @@ export default {
 
     /*
      * 表单图片上传
-     * @param that 所在页面 this
-     * @param num 上传数量
-     * @param callback => res {} 回调
      */
-    uploadImageForm(that, callback, sourceType) {
-        let sourceTypeNew
+    uploadImageForm(uploadUrl, callback, sourceType) {
+        let sourceTypeNew = []
         sourceType = sourceType ?? 3
         if (sourceType === 1) {
             sourceTypeNew = ['album']
@@ -176,18 +190,20 @@ export default {
             sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
             success: (res) => {
                 console.log("上传图片列表", res)
-                uni.showLoading({
-                    title: '上传中...'
-                });
+                // uni.showLoading({
+                //     title: '上传中...'
+                // });
                 let tempFilePaths = res.tempFilePaths
                 let uploadImgCount = 0;
+                callback(tempFilePaths);
+                return
                 tempFilePaths.map(item => {
                     uni.uploadFile({
-                        url: init.config.baseUrl + that.$routes.api_uploadFile,
+                        url: config.baseUrl + uploadUrl,
                         filePath: item,
                         name: 'file',
                         header: {
-                            'authorization': init.config.webTokey,
+                            'authorization': config.webTokey,
                         },
                         formData: {
                             token: uni.getStorageSync("userToken")
@@ -195,7 +211,7 @@ export default {
                         success: res => {
                             uploadImgCount++;
                             let data = JSON.parse(res.data)
-                            that.$tools.dd("上传图片请求", data)
+                            this.dd("上传图片请求", data)
                             callback(data)
                             //如果是最后一张,则隐藏等待中
                             if (uploadImgCount === tempFilePaths.length) {
@@ -203,7 +219,7 @@ export default {
                             }
                         },
                         fail: err => {
-                            that.$tools.dd("上传图片请求", err, 2)
+                            this.dd("上传图片请求", err, 2)
                             uni.hideLoading();
                             uni.showModal({
                                 title: '超时提示',
@@ -380,7 +396,7 @@ export default {
         type = type ? type : 0
         json = json ? json : ''
         let curRoute = '/'
-        if (init.config.debug) {
+        if (config.debug) {
             switch (type) {
                 case 0:
                     console.log("[info](" + curRoute + ")", content, json)
@@ -395,13 +411,12 @@ export default {
         }
     },
     // ID元素属性获取
-    domExec(fieid) {
-        var that = this;
+    domExec(fieid, calls) {
         var query = uni.createSelectorQuery();
         query
             .select("#" + fieid)
             .boundingClientRect(function(res) {
-                that.parmloca[fieid] = res;
+                calls(res)
             })
             .exec();
     },
@@ -426,16 +441,13 @@ export default {
             }
         });
     },
-    // 发送数据请求
-    requests(url, formdata, methods) {
-        formdata = formdata ? formdata : {}, methods = methods ? methods : "get";
-        return http[methods](url, formdata);
-    },
     //获取用户地理位置权限
-    getPermission(that) {
+    getPermission(callData) {
         uni.getLocation({
-            success: function(res) {
-                that.useraddr = res.address //调用成功直接设置地址
+            success: (res) => {
+                if(callData) {
+                    callData(obj)
+                }
             },
             fail: function() {
                 uni.getSetting({
@@ -444,7 +456,7 @@ export default {
                         if (!statu['scope.userLocation']) {
                             uni.showModal({
                                 title: '是否授权当前位置',
-                                content: '需要获取您的地理位置，请确认授权，否则地图功能将无法使用',
+                                content: '需要获取您的地理位置，请确认授权，否则定位功能将无法使用',
                                 success: function(tip) {
                                     if (tip.confirm) {
                                         uni.openSetting({
@@ -459,12 +471,10 @@ export default {
                                                     })
                                                     //授权成功之后，再调用chooseLocation选择地方
                                                     uni.getLocation({
-                                                        success: (
-                                                            obj
-                                                            ) => {
-                                                            obj.useraddr =
-                                                                res
-                                                                .address //调用成功直接设置地址
+                                                        success: (obj) => {
+                                                            if(callData) {
+                                                                callData(obj)
+                                                            }
                                                         },
                                                     })
                                                 } else {

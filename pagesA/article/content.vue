@@ -1,7 +1,19 @@
 <template>
-    <view class="parm-content">
-        <u-parse :content="paramData.content" @preview="preview" @navigate="navigate"></u-parse>
-    </view>
+   <view class="">
+       <cu-custom :isBack="true">
+            <block slot="content">
+                <view class="">{{title}}</view>
+            </block>
+        </cu-custom>
+       <view class="padding">
+           <view class="padding bg-white radius-df">
+
+               <view class="parm-content">
+                   <u-parse :content="paramData.content" @preview="preview" @navigate="navigate"></u-parse>
+               </view>
+           </view>
+       </view>
+   </view>
 </template>
 
 <script>
@@ -12,19 +24,19 @@ export default {
     },
     data() {
         return {
+            title: "详情",
             paramForm: {},
-            paramData: {},
+            paramData: {
+                content: "详情。。。。。。"
+            },
             paramLoca: {
-                imageProp: {
-                    mode: 'widthFix',
-                },
             },
         }
     },
     onLoad(e) {
         const that = this
         that.paramForm.id = e.id
-        that.getData()
+        // that.getData()
     },
     methods: {
         preview(src, e) {
@@ -47,4 +59,8 @@ export default {
 </script>
 
 <style lang="less">
+    body,
+    page {
+        background-color: #f8f8f8;
+    }
 </style>

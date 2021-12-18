@@ -2,7 +2,7 @@
     <view class="">
         <cu-custom>
             <block slot="content">
-                <view class="">华中人才</view>
+                <view class="">pages-defaultTitle</view>
             </block>
         </cu-custom>
         <view>

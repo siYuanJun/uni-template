@@ -1,34 +1,39 @@
 import { http } from './request'
-import routes from './routes'
 
 const config = {
     // 项目名称
-    title: 'uni-moban',
+    title: 'default',
     // 接口域名
     baseUrl: 'https://www.xxx.com',
     // 项目Token
     webTokey: '',
     // 是否开启调试模式
-    debug: false,
+    debug: true,
     // 系统版本号
     version: '1.0.0',
     // 高德地图
     amap: {
-        WebKey: '', // WEB秘钥
-        XcxKey: '', // 小程序秘钥
-        AndroidKey: '', // 安卓秘钥
+        WebKey: "23ea30beceb9f3265fbdba619863f97c", // WEB秘钥
+        WebServerKey: "caa9b5f9fa46e0a3100f05ac06738689", // WEB服务秘钥
     },
 }
 
 // 初始化高德地图配置
-const amapFile = require('@/js_sdk/amap-wx.js')
-const amapsdk = new amapFile.AMapWX({
-    key: config.amap.XcxKey,
+// const amapFile = require('@/js_sdk/amap-wx.js')
+// const amapsdk = new amapFile.AMapWX({
+//     key: config.amap.XcxKey,
+// })
+
+http.setConfig((configs) => { /* 设置全局配置 */
+  configs.baseUrl =  config.baseUrl + '/api' /* 根域名不同 */
+  configs.header = {
+      ...configs.header,
+      // 'authorization': config.webTokey
+  }
+  return configs
 })
 
-export default {
-    amapsdk,
+export {
     http,
-    config,
-    routes,
-}
+    config
+};
