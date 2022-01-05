@@ -4,6 +4,45 @@ import {
 } from '@/common/permission'
 
 export default {
+    //保存图片
+    downSaveImage(imgurl) {
+    	uni.showModal({
+    		title: '保存图片',
+    		content: '是否保存当前图片？',
+    		success: res => {
+    			if (res.confirm) {
+    				uni.downloadFile({
+    					url: imgurl,
+    					success: res => {
+    						if (res.statusCode === 200) {
+    							uni.saveImageToPhotosAlbum({
+    								filePath: res.tempFilePath,
+    								success: function() {
+    									uni.showToast({
+    										title: '保存成功',
+    										duration: 2000
+    									});
+    								},
+    								fail: function() {
+    									uni.showToast({
+    										title: '保存失败，请稍后重试',
+    										icon: 'none'
+    									});
+    								}
+    							});
+    						}
+    					}
+    				});
+    			} else if (res.cancel) {
+    				// uni.showToast({
+    				// 	title: "你取消了该操作",
+    				// 	icon:'none',
+    				// 	duration: 2000
+    				// });
+    			}
+    		}
+    	});
+    },
     async getAddress(call) {
         // #ifdef APP-PLUS
         judgePermission('location')
@@ -82,17 +121,16 @@ export default {
 
     /*
      * 地址转经纬度
-     * @param that 所在页面 this
      * @param address 地址名称
      */
-    getGeoWeb(that, address) {
+    getGeoWeb(address) {
         var url = "https://restapi.amap.com/v3/geocode/geo";
         return new Promise((resolve, reject) => {
             uni.request({
                 url: url,
                 method: "get",
                 data: {
-                    key: config.amapWebKey,
+                    key: config.amap.WebServerKey,
                     address: address,
                 },
                 success: (res) => {
@@ -190,16 +228,16 @@ export default {
             sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
             success: (res) => {
                 console.log("上传图片列表", res)
-                // uni.showLoading({
-                //     title: '上传中...'
-                // });
+                uni.showLoading({
+                    title: '上传中...'
+                });
                 let tempFilePaths = res.tempFilePaths
                 let uploadImgCount = 0;
-                callback(tempFilePaths);
-                return
+                // callback(tempFilePaths);
+                // return
                 tempFilePaths.map(item => {
                     uni.uploadFile({
-                        url: config.baseUrl + uploadUrl,
+                        url: config.baseUrl + '/api' + uploadUrl,
                         filePath: item,
                         name: 'file',
                         header: {
@@ -399,13 +437,13 @@ export default {
         if (config.debug) {
             switch (type) {
                 case 0:
-                    console.log("[info](" + curRoute + ")", content, json)
+                    console.info("[info](" + curRoute + ")", content, json)
                     break;
                 case 1:
-                    console.log("[warning](" + curRoute + ")", content, json)
+                    console.warn("[warning](" + curRoute + ")", content, json)
                     break;
                 case 2:
-                    console.log("[error](" + curRoute + ")", content, json)
+                    console.error("[error](" + curRoute + ")", content, json)
                     break;
             }
         }
@@ -425,9 +463,9 @@ export default {
         return new Promise((resolve, reject) => {
             let status = 0;
             for (var i = 0; i < field.length; i++) {
-                if (formdata[field[i]] == "") {
+                if (formdata[field[i]] === "") {
                     uni.showToast({
-                        title: message[i] + "不能为空",
+                        title: message[i] + "不能为空" + formdata[field[i]],
                         icon: "none",
                         duration: 2000
                     });

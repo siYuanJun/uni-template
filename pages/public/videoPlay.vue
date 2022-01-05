@@ -24,6 +24,7 @@
 
 <script>
 import yyVideoPlayer from '@/components/yy-video-player/yy-video-player.nvue';
+
 export default {
     components: {
         yyVideoPlayer,

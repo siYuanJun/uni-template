@@ -87,6 +87,10 @@ export default {
       areaName: {
           type: String,
           default: '北京市'
+      },
+      cityData: {
+          type: Object,
+          default: {}
       }
     },
     data() {
@@ -103,7 +107,7 @@ export default {
             cityId: null, //城市ID
             cityName: null, //城市名
 
-            hotcites: City.data.hotcity, //热门城市，模拟数据请自行修改
+            hotcites: [], //热门城市，模拟数据请自行修改
             cities: City.data.cities, //城市列表,拟数据请自行修改
 
             alphabet: City.data.alphabet, //字母列表
@@ -117,6 +121,9 @@ export default {
         }
     },
     watch: {
+        cityData(newVal, oldVal) {
+            this.hotcites = newVal.hotcity
+        },
         // 城市搜索输入框
         inputValue(newVal) {
             this.isClearBtn = newVal ? true : false
@@ -198,7 +205,7 @@ export default {
         selectCity(item) {
             console.log('选择的城市：', item)
             this.$emit("cityClickChang", item)
-            
+
             //当前项目是需要选择到区域，所以选择城市后回到区县的地方
             // this.toIndex = 'area'
             // setTimeout(() => {
@@ -274,7 +281,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+body, page {
+    background: #ffffff;
+}
+
 .borderBottom {
     position: relative;
 
@@ -292,17 +303,17 @@ export default {
 
 .city-search-wrap {
     width: 100%;
-    padding: 20upx 30upx 0 30upx;
+    padding: 0upx 30upx 0 30upx;
     box-sizing: border-box;
 
     .search {
         width: 100%;
-        height: 60upx;
+        height: 100upx;
         display: flex;
         align-items: center;
         font-size: 24upx;
         color: #222;
-        padding: 0 30upx;
+        padding: 20upx 30upx;
         box-sizing: border-box;
         position: fixed;
         left: 0;
@@ -363,7 +374,7 @@ export default {
 }
 
 .reach-content {
-    padding-top: 80upx;
+    padding-top: 100upx;
 
     .li {
         font-size: 32upx;

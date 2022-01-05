@@ -52,9 +52,21 @@
 		},
 		methods: {
 			BackPage() {
-				uni.navigateBack({
-					delta: 1
-				});
+			    // console.log(getCurrentPages())
+			    if (getCurrentPages().length < 2 && 'undefined' !== typeof __wxConfig) {
+			        let url = '/' + __wxConfig.pages[0]
+			        return uni.reLaunch({
+			            url
+			        })
+			    } else if(getCurrentPages().length < 2) {
+			        return uni.reLaunch({
+			            url: '/pages/index/tabBar'
+			        })
+			    }
+                
+			    uni.navigateBack({
+			        delta: 1
+			    });
 			}
 		}
 	}

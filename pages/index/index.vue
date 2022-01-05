@@ -12,32 +12,38 @@
 </template>
 
 <script>
-export default {
-    components: {},
-    data() {
-        return {
-            paramData: {},
-            paramForm: {},
-            paramLoca: {},
+    import mixLoadMore from '@/components/mix-load-more/mix-load-more'
+    export default {
+        components: {
+            mixLoadMore
+        },
+        data() {
+            return {
+                loadMoreStatus: 2,
+                paramData: [],
+                workId: 0,
+            }
+        },
+        methods: {
+            getInit(workId, page, date) {
+                this.workId = workId
+                this.loadMoreStatus = 1
+
+                // signClockList(workId, {page, time: date || ''}).then(res => {
+                //     let data = res.data.data.data
+
+                //     if(page > 1) {
+                //         data.map(item => {
+                //             this.paramData.push(item)
+                //         })
+                //     } else {
+                //         this.paramData = data
+                //     }
+
+                //     this.loadMoreStatus = data.length === 0 ? 2 : (data.length < 10 ? 2 : 0)
+                // })
+            },
         }
-    },
-    onLoad() {},
-    methods: {
-        async getData() {
-            const that = this
-            const result = await that.$tools.requests(that, that.$routes.api_index, that.parmdata)
-            console.log(result)
-            // uni.setNavigationBarTitle({
-            // 	title: res.name
-            // })
-        },
-        onPullDownRefresh() {
-            console.log('refresh')
-        },
-        onReachBottom() {
-            console.log('onReachBottom')
-        },
-    },
-}
+    }
 </script>
 <style lang="less"></style>

@@ -5,6 +5,8 @@ const config = {
     title: 'default',
     // 接口域名
     baseUrl: 'https://www.xxx.com',
+    // 资源地址
+    baseUrlStatic: 'https://www.xxx.com/static',
     // 项目Token
     webTokey: '',
     // 是否开启调试模式
