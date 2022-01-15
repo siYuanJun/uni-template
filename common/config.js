@@ -15,7 +15,8 @@ const config = {
     version: '1.0.0',
     // 高德地图
     amap: {
-        WebKey: "23ea30beceb9f3265fbdba619863f97c", // WEB秘钥
+        // 备注自己的
+        // WebKey: "23ea30beceb9f3265fbdba619863f97c", // WEB秘钥
         WebServerKey: "caa9b5f9fa46e0a3100f05ac06738689", // WEB服务秘钥
     },
 }

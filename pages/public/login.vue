@@ -85,7 +85,6 @@ page {
 export default {
     data() {
         return {
-            test: '123456',
             loginCode: '',
             canIUse: '',
             wxlogo:

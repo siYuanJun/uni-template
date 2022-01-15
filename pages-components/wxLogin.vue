@@ -58,21 +58,36 @@
                 canIUse: '',
                 submitLoading: true,
                 btntype: '',
-                userInfoAuth: '',
-                wxIcon: this.$baseStatic + '/static/images/wx-icon.png'
+                userInfoAuth: 1,
+                wxIcon: this.$baseStatic + '/static/images/wx-icon.png',
+                loginStatus: ''
             };
         },
         created() {
-            const that = this;
             // getphonenumber
-            that.canIUse = uni.canIUse('button.open-type.getUserInfo');
+            this.canIUse = uni.canIUse('button.open-type.getUserInfo');
+            this.loginRequest()
+            this.getWxUserInfo()
         },
         methods: {
+            getWxUserInfo() {
+                uni.getUserInfo({
+                    success: res => {
+                        this.$tools.dd('getUserInfo', res);
+                        uni.setStorageSync('userProfileData', res);
+                        this.userInfoAuth = res
+                    },
+                    fail: err => {
+                        console.log("自动获取用户信息失败，未微信授权", err)
+                        // this.userInfoAuth = ''
+                    }
+                })
+            },
             loginRequest() {
                 uni.login({
                     success: res => {
                         this.$tools.dd('loginRequest => 初始化点击', res);
-                        this.loginCode = res.code;
+                        uni.setStorageSync('loginCode', res.code);
                     },
                     fail: err => {
                         console.log(err);
@@ -80,13 +95,14 @@
                 });
             },
             getLogin(e) {
+                this.$tools.dd('微信授权入口', e);
                 this.submitLoading = false;
-                this.loginRequest();
+
                 // 手机号操作
                 if (e.detail.iv) {
                     setTimeout(res => {
                         this.bindCheckCacheUserInfo(e);
-                    }, 500);
+                    }, 600);
                     return;
                 }
 
@@ -98,6 +114,7 @@
                         uni.setStorageSync('userProfileData', res);
                         this.userInfoAuth = res
                         this.submitLoading = true
+
                         // this.bindCheckCacheUserInfo({
                         //     type: 'getuserinfo',
                         //     detail: res,
@@ -117,20 +134,23 @@
             // 检测缓存授权信息
             bindCheckCacheUserInfo(e) {
                 const that = this;
-                that.$tools.dd('bindCheckCacheUserInfo => 获得用户信息-配置缓存', e);
+                that.$tools.dd('获得用户缓存信息', e);
+
                 if (e.detail.encryptedData) {
                     that.btntype = e.type;
+
                     uni.setStorage({
-                        key: 'userdetail',
+                        key: 'userDetail',
                         data: e.detail,
                         success: res => {
-                            e.detail.code = this.loginCode;
-                            uni.setStorageSync('userdetail', e.detail);
-                            if(e.detail.userInfo) {
+                            e.detail.code = uni.getStorageSync('loginCode');
+
+                            uni.setStorageSync('userDetail', e.detail);
+                            if (e.detail.userInfo) {
                                 uni.setStorageSync('userInfo', e.detail.userInfo);
                             }
                             uni.removeStorageSync('userToken');
-                            that.checkSessionAndLogin(that);
+                            that.checkSessionAndLogin();
                         },
                         fail: err => {
                             console.log(err);
@@ -158,7 +178,8 @@
              * 如果没过期则返回
              * 如果没登录过则执行login 并将用户信息发送到服务器更新
              */
-            checkSessionAndLogin(that) {
+            checkSessionAndLogin() {
+                let that = this
                 const thisOpenId = uni.getStorageSync('userToken');
                 // 已经进行了登录，检查登录是否过期
                 if (thisOpenId) {
@@ -167,14 +188,14 @@
                         success() {
                             // session_key 未过期，并且在本生命周期一直有效
                             uni.reLaunch({
-                                url: '/pages/index/index',
+                                url: '/pages/index/tabBar',
                             });
                         },
                         fail() {
                             console.log('but session_key expired');
                             // session_key 已经失效，需要重新执行登录流程
                             uni.removeStorageSync('userToken');
-                            that.checkSessionAndLogin(that);
+                            that.checkSessionAndLogin();
                         },
                     });
                 } else {
@@ -194,30 +215,37 @@
                 const that = this;
                 that.submitLoading = false;
                 that.$tools.dd('开始登陆请求---');
-                const userdetail = uni.getStorageSync('userdetail');
+                const userdetail = uni.getStorageSync('userDetail');
                 const userProfileData = uni.getStorageSync('userProfileData');
                 that.$tools.dd('loginAndGetOpenid => 读取缓存的用户数据', userdetail, userProfileData);
 
                 if (!userdetail.code) {
                     that.submitLoading = true;
+                    uni.showToast({
+                        title: '微信信息获取失败',
+                        icon: 'none',
+                        duration: 2000,
+                    });
                     return;
                 }
+
                 const paramForm = {
                     code: userdetail.code,
-                    encryptedData: '',
-                    iv: '',
+                    encryptedData: userdetail.encryptedData,
+                    iv: userdetail.iv,
                 };
-                paramForm.encryptedData = userdetail.encryptedData;
-                paramForm.iv = userdetail.iv;
-                paramForm.nickname = userProfileData.userInfo.nickName
-                paramForm.avatar = userProfileData.userInfo.avatarUrl
+
+                if (userProfileData) {
+                    paramForm.nickname = userProfileData.userInfo.nickName
+                    paramForm.avatar = userProfileData.userInfo.avatarUrl
+                }
 
                 const result = await wxLoginApi(paramForm);
                 that.$tools.dd('登陆请求返回数据', result);
 
                 try {
                     const data = result.data
-                    if(data.code != 0) {
+                    if (data.code != 0) {
                         uni.showToast({
                             title: result.data.data
                         })

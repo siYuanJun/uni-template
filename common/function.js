@@ -131,7 +131,7 @@ export default {
                 method: "get",
                 data: {
                     key: config.amap.WebServerKey,
-                    address: address,
+                    address,
                 },
                 success: (res) => {
                     resolve(res.data)
