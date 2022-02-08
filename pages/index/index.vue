@@ -2,10 +2,10 @@
     <view class="">
         <cu-custom>
             <block slot="content">
-                <view class="">pages-defaultTitle</view>
+                <view class="">pages-default</view>
             </block>
         </cu-custom>
-        <view>
+        <view class="text-center padding">
             个人主页
         </view>
     </view>

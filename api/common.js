@@ -6,3 +6,4 @@ import { http } from '@/common/config.js'
 export function statusMap(data) {
     return http.post("/common/statusMap", data)
 }
+

@@ -18,6 +18,7 @@
 
 <script>
 import uParse from '@/components/u-parse/u-parse'
+
 export default {
     components: {
         uParse,
@@ -34,9 +35,7 @@ export default {
         }
     },
     onLoad(e) {
-        const that = this
-        that.paramForm.id = e.id
-        // that.getData()
+        this.paramForm.id = e.id
     },
     methods: {
         preview(src, e) {
@@ -47,9 +46,7 @@ export default {
             // do something
         },
         async getData() {
-            const that = this
-            const result = await that.$tools.requests(that.$routes.api_index, that.paramData)
-            console.log(result)
+            
             // uni.setNavigationBarTitle({
             // 	title: res.name
             // })

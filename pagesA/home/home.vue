@@ -2,7 +2,7 @@
     <view class="">
         <cu-custom>
             <block slot="content">
-                <view class="">defaultTitle</view>
+                <view class="">pagesA-defaultTitle</view>
             </block>
         </cu-custom>
         <view class="">

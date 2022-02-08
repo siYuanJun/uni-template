@@ -123,7 +123,7 @@ http.interceptor.response((res) => {
                 console.log(e)
             }
             uni.navigateTo({
-                url: '/pagesA/user/login'
+                url: '/pages/public/login.vue'
             })
             break;
     }

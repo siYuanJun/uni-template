@@ -20,7 +20,7 @@ Vue.mixin(pagePull)
 
 
 // 防抖处理-立即执行
-const on = vue.prototype.$on
+const on = Vue.prototype.$on
 Vue.prototype.$on = function(event, func) {
     let timer;
     let flag = true;

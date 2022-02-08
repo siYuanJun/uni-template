@@ -67,7 +67,7 @@
             // getphonenumber
             this.canIUse = uni.canIUse('button.open-type.getUserInfo');
             this.loginRequest()
-            this.getWxUserInfo()
+            // this.getWxUserInfo()
         },
         methods: {
             getWxUserInfo() {
@@ -183,7 +183,7 @@
                 const thisOpenId = uni.getStorageSync('userToken');
                 // 已经进行了登录，检查登录是否过期
                 if (thisOpenId) {
-                    that.$tools.dd('有token直接登陆');
+                    that.$tools.dd('有token直接登录');
                     uni.checkSession({
                         success() {
                             // session_key 未过期，并且在本生命周期一直有效
@@ -200,7 +200,7 @@
                     });
                 } else {
                     // 没有进行登录则先进行登录操作
-                    that.$tools.dd(`没有[token]重新登陆，点击类型 => ${  that.btntype}`);
+                    that.$tools.dd(`没有[token]重新登录，点击类型 => ${  that.btntype}`);
                     if (that.btntype == 'getuserinfo') {
                         that.$tools.dd('个人信息获取');
                     }
@@ -214,18 +214,19 @@
             async loginAndGetOpenid() {
                 const that = this;
                 that.submitLoading = false;
-                that.$tools.dd('开始登陆请求---');
+                that.$tools.dd('开始登录请求---');
                 const userdetail = uni.getStorageSync('userDetail');
                 const userProfileData = uni.getStorageSync('userProfileData');
                 that.$tools.dd('loginAndGetOpenid => 读取缓存的用户数据', userdetail, userProfileData);
 
                 if (!userdetail.code) {
-                    that.submitLoading = true;
                     uni.showToast({
                         title: '微信信息获取失败',
                         icon: 'none',
                         duration: 2000,
                     });
+                    that.submitLoading = true;
+                    this.loginRequest()
                     return;
                 }
 
@@ -233,15 +234,17 @@
                     code: userdetail.code,
                     encryptedData: userdetail.encryptedData,
                     iv: userdetail.iv,
+                    shareId: uni.getStorageSync('userShareId')
                 };
 
-                if (userProfileData) {
-                    paramForm.nickname = userProfileData.userInfo.nickName
-                    paramForm.avatar = userProfileData.userInfo.avatarUrl
-                }
+                // if (userProfileData) {
+                //     paramForm.nickname = userProfileData.userInfo.nickName
+                //     paramForm.avatar = userProfileData.userInfo.avatarUrl
+                // }
 
+                console.log(JSON.stringify(paramForm))
                 const result = await wxLoginApi(paramForm);
-                that.$tools.dd('登陆请求返回数据', result);
+                that.$tools.dd('登录请求返回数据', result);
 
                 try {
                     const data = result.data
@@ -257,7 +260,7 @@
                     await this.getUserDataApi()
 
                     uni.showToast({
-                        title: '登陆成功',
+                        title: '登录成功',
                         icon: 'none',
                         duration: 2000,
                         success() {
