@@ -4,6 +4,19 @@ import {
 } from '@/common/permission'
 
 export default {
+    setImgUrl(src) {
+        if(src) {
+            let newStr = src.indexOf("http")
+    
+            if(newStr == 0) {
+                return src
+            } else {
+                return config.$baseUrl + src
+            }
+        } else {
+            return config.$baseUrl + '/avatar.png'
+        }
+    },
     //保存图片
     downSaveImage(imgurl) {
     	uni.showModal({

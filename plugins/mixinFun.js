@@ -14,7 +14,7 @@ export default {
         let y = date.getFullYear();
         let m = date.getMonth() + 1;
         let d = date.getDate();
-        
+
         return {
             full: y + "-" + this.dateFormatNum(m) + "-" + this.dateFormatNum(d),
             y,
@@ -33,19 +33,6 @@ export default {
             return dqbirth.getFullYear() - births.getFullYear() + '岁'
         } else {
             return ''
-        }
-    },
-    setImgUrl(src) {
-        if(src) {
-            let newStr = src.indexOf("http")
-
-            if(newStr == 0) {
-                return src
-            } else {
-                return this.$baseUrl + src
-            }
-        } else {
-            return this.$baseUrl + '/avatar.png'
         }
     },
     href(url) {
@@ -108,5 +95,12 @@ export default {
         phone = "" + phone;
         var reg = /(\d{3})\d{4}(\d{4})/; //正则表达式
         return phone.replace(reg, "$1****$2")
+    },
+    handlerDestroyNotifcation(key) {
+        // 销毁消息定时器
+        let notificationID = uni.getStorageSync('notificationID')
+        console.log("app-销毁消息定时器", notificationID)
+        uni.removeStorageSync('notificationID')
+        clearInterval(notificationID)
     }
 }

@@ -20,9 +20,9 @@
 
 <template>
     <view class="content">
-        <cu-custom bgColor="bg-white" :isBack="false">
+        <cu-custom>
             <block slot="content">
-                <view class="text-bold text-black">{{title}}</view>
+                <view class="">消息</view>
             </block>
         </cu-custom>
         <view class="padding-top-xs padding-bottom">
@@ -62,55 +62,34 @@ export default {
     components: {mixLoadMore},
     data() {
         return {
-            title: "消息",
-            api_getMessageList: "/user/getMessageList",
             paramForm: {
-                pageNo: 1,
-                pageSize: 10,
+                page: 10,
             },
             paramData: {
                 records: {},
             },
             paramLoca: {
                 loadMoreStatus: 0,
-            },
+            }
         }
     },
     onLoad(e) {
         const that = this
-        that.init(that, 1)
+        this.init(this)
     },
     onShow() {
     },
     methods: {
-        init(that, page, type) {
-            that.paramForm.pageNo = page != undefined ? page : 1
-            that.paramForm.userSystemId = that.getu('userSystemId')
-            that.$tools.requests(that, that.api_getMessageList, that.paramForm, 'get', type).then(res => {
-                const data = res.result.records
-                console.log(data)
-                if(type == "add") {
-                    data.forEach(item => {
-                        that.paramData.records.push(item)
-                    })
-                } else {
-                    that.paramData.records = data
-                }
-                if(data.length < 10) {
-                    that.paramLoca.loadMoreStatus = 2
-                }
-            })
+        init() {
+
         },
         onPullDownRefresh() {
             console.log('refresh')
-            const that = this
-            that.init(that)
+            this.init()
         },
         onReachBottom() {
             console.log('onReachBottom')
-            const that = this
-				 that.paramForm.pageNo++
-            that.init(that, that.paramForm.pageNo, 'add')
+            this.init()
         },
     },
 }

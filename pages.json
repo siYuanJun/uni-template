@@ -3,17 +3,25 @@
         {
             "path": "pages/index/index",
             "style": {
-            	"navigationBarTitleText": "",
-            	"navigationStyle": "custom",
+            	"navigationBarTitleText": "首页",
             	"app-plus": {
             		"titleView": false
             	}
             }
         },
         {
-        	"path": "pages/public/login",
+            "path": "pages/user/message",
+            "style": {
+            	"navigationBarTitleText": "消息",
+            	"app-plus": {
+            		"titleView": false
+            	}
+            }
+        },
+        {
+        	"path": "pages/user/index",
         	"style": {
-        		"navigationBarTitleText": "微信授权"
+        		"navigationBarTitleText": "我的"
         	}
         }
     ],
@@ -42,7 +50,7 @@
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "title",
 		"navigationBarBackgroundColor": "#FF7701",
-		// "navigationStyle": "custom",
+		"navigationStyle": "custom",
 		"backgroundColor": "#EEEEEE"
 	},
 	"tabBar": {
@@ -52,7 +60,7 @@
 		"backgroundColor": "#ffffff",
 		"list": [
             {
-                "pagePath": "pages/index/tabBar",
+                "pagePath": "pages/index/index",
                 "iconPath": "/static/images/nav/home-icon.png",
                 "selectedIconPath": "/static/images/nav/home-icon-cur.png",
                 "text": "首页"
@@ -64,7 +72,7 @@
                 "text": "消息"
             },
             {
-                "pagePath": "pages/user/index/tabBar",
+                "pagePath": "pages/user/index",
                 "iconPath": "/static/images/nav/user-icon.png",
                 "selectedIconPath": "/static/images/nav/user-icon-cur.png",
                 "text": "我的"

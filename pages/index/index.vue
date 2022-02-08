@@ -2,7 +2,7 @@
     <view class="">
         <cu-custom>
             <block slot="content">
-                <view class="">pages-default</view>
+                <view class="">首页</view>
             </block>
         </cu-custom>
         <view class="text-center padding">

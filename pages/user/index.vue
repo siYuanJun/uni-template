@@ -1,7 +1,14 @@
 <style lang="less"></style>
 <template>
-    <view class="content">
-        <view class="text-black text-xxl text-center padding-xl">初始化成功</view>
+    <view class="">
+        <cu-custom>
+            <block slot="content">
+                <view class="">我的</view>
+            </block>
+        </cu-custom>
+        <view class="">
+            我的
+        </view>
     </view>
 </template>
 
@@ -15,8 +22,6 @@ export default {
         };
     },
     onLoad() {
-        const that = this;
-        that.$tools.requests(that, that.routes.api_index);
     },
     methods: {
         onPullDownRefresh() {

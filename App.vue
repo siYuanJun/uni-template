@@ -63,11 +63,8 @@ export default {
     },
     onHide() {
         console.log('App Hide')
-        // 销毁消息定时器
-        let notificationID = uni.getStorageSync('notificationID')
-        console.log("app-销毁消息定时器", notificationID)
-        uni.removeStorageSync('notificationID')
-        clearInterval(notificationID)
+
+        this.handlerDestroyNotifcation()
     },
 }
 </script>
@@ -78,6 +75,4 @@ export default {
 @import './components/colorui/icon.css';
 @import './components/colorui/animation.css';
 @import './static/css/common.less';
-
-@---color-theme: #FF7701;
 </style>
