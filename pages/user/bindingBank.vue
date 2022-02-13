@@ -1,4 +1,4 @@
-<style lang="less"></style>
+<style lang="scss"></style>
 <template>
     <view class="content">
         <view class="padding text-333333 text-lg text-center solid-bottom">

@@ -69,10 +69,10 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 /*每个页面公共css */
 @import './components/colorui/main.css';
 @import './components/colorui/icon.css';
 @import './components/colorui/animation.css';
-@import './static/css/common.less';
+@import './static/css/common.scss';
 </style>

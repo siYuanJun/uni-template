@@ -55,7 +55,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
     body,
     page {
         background-color: #f8f8f8;

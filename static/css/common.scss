@@ -3,8 +3,8 @@ html {
 	margin: 0px auto;
 }
 
-body {
-	background-color: #fff;
+page, body {
+	background-color: #FFFFFF;
 }
 
 .navigator-hover {
@@ -12,23 +12,19 @@ body {
 }
 
 .bg-theme {
-    background-color: #FF7701 !important;
+    background-color: #2ACDCA !important;
 }
 
 .text-theme {
-    color: #FF7701 !important;
+    color: #2ACDCA !important;
 }
 
 .text-red-FF0000 {
     color: #FF0000 !important;
 }
 
-.text-gray-607185 {
-    color: #607185;
-}
-
-.text-black-071329 {
-    color: #071329;
+.text-black-222 {
+    color: #222222;
 }
 
 .radius-df {
@@ -112,16 +108,32 @@ body {
     color: #607185
 }
 
+.text-gray-c2c2c2 {
+    color: #c2c2c2
+}
+
+.text-gray-BAB8B8 {
+    color: #BAB8B8
+}
+
+.text-gray-B4B4B4 {
+    color: #B4B4B4
+}
+
+.text-blue-2E55CD {
+    color: #2E55CD
+}
+
 .border-theme {
-    border: 1upx solid #FF7701
+    border: 1px solid $uni-color-theme
 }
 
 .cu-tag.border-theme, .cu-btn.border-theme {
     background: none;
 }
 
-.bg-gary-F8F9FB {
-    background: #F8F9FB;
+.bg-gary-f7f7f7 {
+    background: #F7F7F7;
 }
 
 .text-nowrap-df {
@@ -189,13 +201,12 @@ body {
 }
 
 
-
 uni-swiper .uni-swiper-dot {
-    background-color: rgba(251, 95, 36, 0.6) !important;
+    background-color: rgba(46, 205, 203, 0.4) !important;
 }
 
 uni-swiper .uni-swiper-dot.uni-swiper-dot-active {
-    background-color: rgba(251, 95, 36, 1) !important;
+    background-color: rgba(46, 205, 203, 1) !important;
 }
 
 .opacity-50 {
@@ -209,5 +220,91 @@ uni-swiper .uni-swiper-dot.uni-swiper-dot-active {
 
     &.padding-bottom {
         padding-bottom: 0 !important;
+    }
+}
+
+.border-bottom-E3E3E3 {
+    border-bottom: 1px solid #E3E3E3;
+}
+
+.text-black-000 {
+    color: #000;
+}
+
+// #F49379
+// #CF5E5E
+// #7271E2
+// #FFA35D
+// #469ADC
+// #D07D4A
+
+.bg-block-1 {
+    background-color: #F49379
+}
+
+.bg-block-2 {
+    background-color: #CF5E5E
+}
+
+.bg-block-3 {
+    background-color: #7271E2
+}
+
+.bg-block-4 {
+    background-color: #FFA35D
+}
+
+.bg-block-5 {
+    background-color: #469ADC
+}
+
+.bg-block-6 {
+    background-color: #D07D4A
+}
+
+.shadow-sm {
+    box-shadow: 0 -3upx 20upx rgba(0, 0, 0, 0.08);
+}
+
+.grid.col-2 {
+    > * {
+        width: calc(50% - 20upx) !important;
+        margin-right: 40upx;
+
+        &:nth-child(2n) {
+            margin-right: 0
+        }
+    }
+}
+
+.border-box {
+    box-sizing: border-box;
+}
+
+.border-bottom-D8D8D8 {
+    border-bottom: 1px solid #D8D8D8;
+}
+
+.text-xxxl {
+	font-size: 55upx;
+}
+
+.padding-top-xxl {
+    padding-top: 100upx;
+}
+
+.text-gray-666 {
+    color: #666;
+}
+
+.border-none {
+    border: none !important;
+
+    &:-webkit-autofill {
+        box-shadow: 0 0 0px 1000px white inset;
+    }
+
+    &:focus {
+        border: none !important;
     }
 }

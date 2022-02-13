@@ -11,6 +11,18 @@
     </view>
 </template>
 
+<!-- <skillSequenceScrollX style=" width: calc(100% - 200upx);" class="padding-top">
+    <view class="cate-nav">
+        <view class="skill-sequence-skill-wrapper item" :class="pageType === 0 ? 'cur' : ''"
+            @tap="pageNav(0)">
+            全部
+        </view>
+        <view class="skill-sequence-skill-wrapper item" v-for="(item, index) in []" :key="index">
+            {{item.shift_info.title}}
+        </view>
+    </view>
+</skillSequenceScrollX> -->
+
 <script>
 </script>
 

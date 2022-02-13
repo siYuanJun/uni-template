@@ -72,7 +72,7 @@
 	}
 </script>
 
-<style lang="less">
+<style lang="scss">
 .header-bg {
     background-color: #FF7701;
 }

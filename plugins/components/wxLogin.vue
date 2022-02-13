@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang="scss">
     .btn-wx {
         border: 1px solid #A8B0BD;
         height: 85upx;

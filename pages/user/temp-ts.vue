@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang="scss">
 page {
     background-color: #eeeeee;
 }

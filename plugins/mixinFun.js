@@ -95,12 +95,5 @@ export default {
         phone = "" + phone;
         var reg = /(\d{3})\d{4}(\d{4})/; //正则表达式
         return phone.replace(reg, "$1****$2")
-    },
-    handlerDestroyNotifcation(key) {
-        // 销毁消息定时器
-        let notificationID = uni.getStorageSync('notificationID')
-        console.log("app-销毁消息定时器", notificationID)
-        uni.removeStorageSync('notificationID')
-        clearInterval(notificationID)
     }
 }

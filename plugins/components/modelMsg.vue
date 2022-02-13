@@ -68,7 +68,7 @@
     }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .sy-model {
     .cu-dialog {
         width: 700upx;

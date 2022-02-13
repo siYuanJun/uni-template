@@ -1,4 +1,4 @@
-<style lang="less"></style>
+<style lang="scss"></style>
 <template>
     <view class="">
         <cu-custom>
