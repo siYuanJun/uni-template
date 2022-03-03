@@ -1,3 +1,5 @@
+import {userInfo as userInfoApi} from "@/api/auth.js"
+
 export default {
     islogin() {
         if (!this.getu('id')) {
@@ -24,32 +26,17 @@ export default {
         }
         return userinfo;
     },
-    getUserDataApi() {
-        let result = await userInfoApi()
-        if (!result) {
-            return {}
-        }
-
-        try {
-            let data = result.data.data
-            if(!data) {
-                return
-            }
-
-            uni.setStorageSync("userInfo", data)
-            return result
-
-        } catch (e) {
-            console.log(e)
-        }
-    },
-    getUserInfo() {
+    async getUserInfo() {
         let userInfo = uni.getStorageSync("userInfo")
         userInfo = ''
         if (userInfo) {
             this.userInfo = userInfo
         } else {
-            this.getUserDataApi()
+            if(!this.getu('id')) {
+                this.userInfo = {_avatar: this.$baseUrl + '/vendor/dcat-admin/images/avatar.png'}
+                return
+            }
+            this.userInfo = await userInfoApi()
         }
     },
 }

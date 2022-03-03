@@ -1,6 +1,48 @@
 import uniCopy from "@/js_sdk/xb-copy/uni-copy";
+import user from './model/user.js'
+import common from './model/common.js'
 
 export default {
+    ...common,
+    ...user,
+    getMessage(uid) {
+        if (!uid) {
+            return
+        }
+        if (uni.getStorageSync('notificationID') == '') {
+            let notificationID = setInterval(res => {
+                this.getNotificationIndex()
+            }, 5000)
+            console.log("mixin->创建消息定时器", notificationID)
+            uni.setStorageSync('notificationID', notificationID)
+        }
+    },
+    getNotificationIndex() {
+        this.$tools.requests(this.$routes.api_auth_notification_index, this.paramForm, 'post').then(res => {
+            let data = res.data.data
+            this.messageData = data
+            this.messageNum = data.see_true_num
+            if (this.messageNum) {
+                uni.setTabBarBadge({
+                    index: 2,
+                    text: this.messageNum.toString()
+                });
+            }
+        })
+    },
+    seleChange(e, field) {
+        console.log(e)
+        let value = e.detail.value
+
+        let seleData = this.paramSele[field]
+
+        if(this.paramSele[field]) {
+            this.paramForm[field] = seleData[value].id
+            this.$set(this.paramForm, '_' + field, seleData[value].title)
+        } else {
+            this.paramForm[field] = value
+        }
+    },
     getFuck(scan_url, name) {
         var reg = new RegExp("[^\?&]?" + encodeURI(name) + "=[^&]+");
         var arr = scan_url.match(reg);
@@ -66,7 +108,7 @@ export default {
         });
     },
     hrefBack() {
-        uni.navigateBack({})
+        uni.navigateBack()
     },
     copyGet(content) {
         uniCopy({
@@ -90,10 +132,5 @@ export default {
         uni.makePhoneCall({
             phoneNumber: phone
         });
-    },
-    userPhoneNumber(phone) {
-        phone = "" + phone;
-        var reg = /(\d{3})\d{4}(\d{4})/; //正则表达式
-        return phone.replace(reg, "$1****$2")
     }
 }
