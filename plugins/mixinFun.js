@@ -1,10 +1,35 @@
 import uniCopy from "@/js_sdk/xb-copy/uni-copy";
-import user from './model/user.js'
-import common from './model/common.js'
 
 export default {
-    ...common,
-    ...user,
+    getu(field) {
+        let userinfo = uni.getStorageSync("userInfo") || {};
+        if (field) {
+            return userinfo[field];
+        }
+        return userinfo;
+    },
+    async getUserInfo() {
+        let userInfo = uni.getStorageSync("userInfo")
+        userInfo = ''
+        if (userInfo) {
+            this.userInfo = userInfo
+        } else {
+            if(!this.getu('id')) {
+                this.userInfo = {_avatar: this.$baseUrl + '/vendor/dcat-admin/images/avatar.png'}
+                return
+            }
+            // this.userInfo = await userInfoApi()
+        }
+    },
+    async getExtConfig(field) {
+        let extConfig = uni.getStorageSync('ddc-extConfig')
+        // extConfig = ''
+        if (!extConfig) {
+            let result = await statusMap()
+            extConfig = result
+        }
+        return field ? extConfig[field] : extConfig
+    },
     getMessage(uid) {
         if (!uid) {
             return

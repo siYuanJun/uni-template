@@ -1,6 +1,5 @@
 
 import mixinFun from '@/plugins/mixinFun.js'
-import common from '@/plugins/model/common.js'
 
 export default {
     data() {
@@ -12,7 +11,7 @@ export default {
         };
     },
     onLoad() {
-        this.extConfig = common.getExtConfig()
+        this.extConfig = this.$request.common.getExtConfig()
     },
     onShow() {
     },

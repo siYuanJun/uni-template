@@ -1,7 +1,7 @@
 import { config } from '@/common/config'
 import {
     judgePermission
-} from '@/common/permission'
+} from '@/plugins/permission'
 
 export default {
     handlerDestroyNotifcation(key) {
