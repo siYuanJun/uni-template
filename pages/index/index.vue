@@ -6,7 +6,12 @@
             </block>
         </cu-custom>
         <view class="text-center padding">
-            个人主页
+            <view class="">
+                个人主页
+            </view>
+            <view class="">
+                <cl-button type="success">默认按钮</cl-button>
+            </view>
         </view>
     </view>
 </template>

@@ -51,15 +51,12 @@
                     </view>
                 </view>
             </view>
-            <mixLoadMore :status="paramLoca.loadMoreStatus"></mixLoadMore>
         </view>
     </view>
 </template>
 
 <script>
-import mixLoadMore from "@/components/mix-load-more/mix-load-more"
 export default {
-    components: {mixLoadMore},
     data() {
         return {
             paramForm: {

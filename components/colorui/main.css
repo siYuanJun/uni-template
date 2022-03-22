@@ -1,9 +1,9 @@
 /*
   ColorUi for uniApp  v2.1.6 | by 文晓港 2019-05-31 10:44:24
-  仅供学习交流，如作它用所承受的法律责任一概与作者无关  
-  
-  *使用ColorUi开发扩展与插件时，请注明基于ColorUi开发 
-  
+  仅供学习交流，如作它用所承受的法律责任一概与作者无关
+
+  *使用ColorUi开发扩展与插件时，请注明基于ColorUi开发
+
   （QQ交流群：240787041）
 */
 
@@ -3020,83 +3020,83 @@ scroll-view.cu-steps .cu-item {
 	margin: 50upx;
 }
 
-.margin-top-xs {
+.mt-xs {
 	margin-top: 10upx;
 }
 
-.margin-top-sm {
+.mt-sm {
 	margin-top: 20upx;
 }
 
-.margin-top {
+.mt {
 	margin-top: 30upx;
 }
 
-.margin-top-lg {
+.mt-lg {
 	margin-top: 40upx;
 }
 
-.margin-top-xl {
+.mt-xl {
 	margin-top: 50upx;
 }
 
-.margin-right-xs {
+.mr-xs {
 	margin-right: 10upx;
 }
 
-.margin-right-sm {
+.mr-sm {
 	margin-right: 20upx;
 }
 
-.margin-right {
+.mr {
 	margin-right: 30upx;
 }
 
-.margin-right-lg {
+.mr-lg {
 	margin-right: 40upx;
 }
 
-.margin-right-xl {
+.mr-xl {
 	margin-right: 50upx;
 }
 
-.margin-bottom-xs {
+.mb-xs {
 	margin-bottom: 10upx;
 }
 
-.margin-bottom-sm {
+.mb-sm {
 	margin-bottom: 20upx;
 }
 
-.margin-bottom {
+.mb {
 	margin-bottom: 30upx;
 }
 
-.margin-bottom-lg {
+.mb-lg {
 	margin-bottom: 40upx;
 }
 
-.margin-bottom-xl {
+.mb-xl {
 	margin-bottom: 50upx;
 }
 
-.margin-left-xs {
+.ml-xs {
 	margin-left: 10upx;
 }
 
-.margin-left-sm {
+.ml-sm {
 	margin-left: 20upx;
 }
 
-.margin-left {
+.ml {
 	margin-left: 30upx;
 }
 
-.margin-left-lg {
+.ml-lg {
 	margin-left: 40upx;
 }
 
-.margin-left-xl {
+.ml-xl {
 	margin-left: 50upx;
 }
 
@@ -3174,83 +3174,83 @@ scroll-view.cu-steps .cu-item {
 	padding: 50upx;
 }
 
-.padding-top-xs {
+.pt-xs {
 	padding-top: 10upx;
 }
 
-.padding-top-sm {
+.pt-sm {
 	padding-top: 20upx;
 }
 
-.padding-top {
+.pt {
 	padding-top: 30upx;
 }
 
-.padding-top-lg {
+.pt-lg {
 	padding-top: 40upx;
 }
 
-.padding-top-xl {
+.pt-xl {
 	padding-top: 50upx;
 }
 
-.padding-right-xs {
+.pr-xs {
 	padding-right: 10upx;
 }
 
-.padding-right-sm {
+.pr-sm {
 	padding-right: 20upx;
 }
 
-.padding-right {
+.pr {
 	padding-right: 30upx;
 }
 
-.padding-right-lg {
+.pr-lg {
 	padding-right: 40upx;
 }
 
-.padding-right-xl {
+.pr-xl {
 	padding-right: 50upx;
 }
 
-.padding-bottom-xs {
+.pb-xs {
 	padding-bottom: 10upx;
 }
 
-.padding-bottom-sm {
+.pb-sm {
 	padding-bottom: 20upx;
 }
 
-.padding-bottom {
+.pb {
 	padding-bottom: 30upx;
 }
 
-.padding-bottom-lg {
+.pb-lg {
 	padding-bottom: 40upx;
 }
 
-.padding-bottom-xl {
+.pb-xl {
 	padding-bottom: 50upx;
 }
 
-.padding-left-xs {
+.pl-xs {
 	padding-left: 10upx;
 }
 
-.padding-left-sm {
+.pl-sm {
 	padding-left: 20upx;
 }
 
-.padding-left {
+.pl {
 	padding-left: 30upx;
 }
 
-.padding-left-lg {
+.pl-lg {
 	padding-left: 40upx;
 }
 
-.padding-left-xl {
+.pl-xl {
 	padding-left: 50upx;
 }
 
