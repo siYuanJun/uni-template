@@ -7,9 +7,11 @@ export default {
     handlerDestroyNotifcation(key) {
         // 销毁消息定时器
         let notificationID = uni.getStorageSync('notificationID')
-        console.log("app-销毁消息定时器", notificationID)
-        uni.removeStorageSync('notificationID')
-        clearInterval(notificationID)
+        if(notificationID) {
+            console.log("app-销毁消息定时器", notificationID)
+            uni.removeStorageSync('notificationID')
+            clearInterval(notificationID)
+        }
     },
     setImgUrl(src) {
         if(src) {

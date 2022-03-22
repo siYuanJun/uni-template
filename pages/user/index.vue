@@ -6,7 +6,7 @@
                 <view class="">我的</view>
             </block>
         </cu-custom>
-        <view class="">
+        <view class="padding text-center">
             我的
         </view>
     </view>

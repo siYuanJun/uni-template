@@ -64,13 +64,14 @@ export default {
     onHide() {
         console.log('App Hide')
 
-        this.handlerDestroyNotifcation()
+        this.$tools.handlerDestroyNotifcation()
     },
 }
 </script>
 
 <style lang="scss">
 /*每个页面公共css */
+@import "cl-uni/index.scss";
 @import './components/colorui/main.css';
 @import './components/colorui/icon.css';
 @import './components/colorui/animation.css';

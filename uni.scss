@@ -13,6 +13,27 @@
  */
 
 /* 颜色变量 */
+@import "cl-uni/theme.scss";
+
+/* 默认主题色 */
+$cl-color-primary: #409eff;
+$cl-color-default: #dcdfe6;
+$cl-color-success: #67c23a;
+$cl-color-warning: #e6a23c;
+$cl-color-error: #dd524d;
+$cl-color-info: #909399;
+$cl-color-disabled: #c0c4cc;
+
+/* 自定义主题色 */
+$cl-color-primary: red;
+$cl-color-default: green;
+$cl-color-success: yellow;
+$cl-color-warning: pink;
+$cl-color-error: blue;
+$cl-color-info: white;
+$cl-color-disabled: black;
+
+
 
 /* 行为相关颜色 */
 $uni-color-primary: #007aff;
