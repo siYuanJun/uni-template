@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import apis from '@/api/index.js'
 import { http } from '@/common/config.js'
 import tools from '@/common/function'
