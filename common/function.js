@@ -15,12 +15,13 @@ export default {
             clearInterval(notificationID)
         }
     },
+
     setImgUrl(imgUrl) {
         let newStr = imgUrl.indexOf("http")
-
         return newStr == 0 ? imgUrl : (config.$baseUrl + imgUrl)
     },
-    //保存图片
+
+    // 保存图片
     downSaveImage(imgurl) {
         uni.showModal({
             title: '保存图片',
@@ -298,12 +299,17 @@ export default {
             }
         });
     },
-    
+
     phoneVerification(phone) {
-        let myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-        return !myreg.test(phone);
+        const myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/
+        return !myreg.test(phone)
     },
-    
+
+    emailVerification(str) {
+        const reg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/
+        return !reg.test(str)
+    },
+
     handleGoApp() {
         if (plus.os.name == 'Android') {
             //安卓
