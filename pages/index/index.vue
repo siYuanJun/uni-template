@@ -10,18 +10,14 @@
                 个人主页
             </view>
             <view class="">
-                <cl-button type="success">默认按钮</cl-button>
+                <u-button type="success">默认按钮</u-button>
             </view>
         </view>
     </view>
 </template>
 
 <script>
-    import mixLoadMore from '@/components/mix-load-more/mix-load-more'
     export default {
-        components: {
-            mixLoadMore
-        },
         data() {
             return {
                 loadMoreStatus: 2,

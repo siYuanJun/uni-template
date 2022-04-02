@@ -8,11 +8,7 @@ import {
     config
 } from '@/common/config.js'
 import apiObject from '@/common/request-plugins.js'
-
-// 防抖方法
-// import debounce from './libs/function/debounce.js'
-// 节流方法
-// import throttle from './libs/function/throttle.js'
+import uView from './uni_modules/uview-ui'
 
 
 Vue.prototype.$baseStatic = config.baseUrlStatic
@@ -20,11 +16,11 @@ Vue.prototype.$baseUrl = config.baseUrl
 Vue.prototype.$tools = tools
 Vue.prototype.$request = apiObject
 
-
 // 顶部自定义导航
 Vue.component('cuCustom', cuCustom)
-
 Vue.mixin(pagePull)
+Vue.use(uView)
+
 
 Vue.config.productionTip = false
 
