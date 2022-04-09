@@ -1,44 +1,21 @@
-import uniCopy from "@/js_sdk/xb-copy/uni-copy";
 
 export default {
     getu(field) {
         let userinfo = uni.getStorageSync("userInfo") || {};
-        if (field) {
-            return userinfo[field];
-        }
-        return userinfo;
-    },
-    async getUserInfo() {
-        let userInfo = uni.getStorageSync("userInfo")
-        userInfo = ''
-        if (userInfo) {
-            this.userInfo = userInfo
-        } else {
-            if(!this.getu('id')) {
-                this.userInfo = {_avatar: this.$baseUrl + '/vendor/dcat-admin/images/avatar.png'}
-                return
-            }
-            // this.userInfo = await userInfoApi()
-        }
-    },
-    async getExtConfig(field) {
-        let extConfig = uni.getStorageSync('ddc-extConfig')
-        // extConfig = ''
-        if (!extConfig) {
-            let result = await statusMap()
-            extConfig = result
-        }
-        return field ? extConfig[field] : extConfig
+
+        return field ? userinfo[field] : userinfo;
     },
     getMessage(uid) {
-        if (!uid) {
+        if (!this.getu('id')) {
             return
         }
-        if (uni.getStorageSync('notificationID') == '') {
+
+        if (!uni.getStorageSync('notificationID')) {
             let notificationID = setInterval(res => {
                 this.getNotificationIndex()
             }, 5000)
-            console.log("mixin->创建消息定时器", notificationID)
+            console.info("mixin创建消息定时器", notificationID)
+
             uni.setStorageSync('notificationID', notificationID)
         }
     },
@@ -134,24 +111,6 @@ export default {
     },
     hrefBack() {
         uni.navigateBack()
-    },
-    copyGet(content) {
-        uniCopy({
-            content: content,
-            success: (res) => {
-                uni.showToast({
-                    title: res,
-                    icon: "none"
-                });
-            },
-            error: (e) => {
-                uni.showToast({
-                    title: e,
-                    icon: "none",
-                    duration: 3000
-                });
-            }
-        });
     },
     phoneGet(phone) {
         uni.makePhoneCall({

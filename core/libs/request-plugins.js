@@ -1,6 +1,6 @@
-import apis from '@/api/index.js'
-import { http } from '@/common/config.js'
-import tools from '@/common/function'
+import apis from '../api/index.js'
+import { http } from '../libs/config.js'
+import tools from '../libs/function'
 
 let apiObject = {}
 for (let i in apis) {

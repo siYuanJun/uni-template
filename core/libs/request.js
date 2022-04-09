@@ -1,4 +1,4 @@
-import Request from '@/js_sdk/luch-request/request'
+import Request from '../js_sdk/luch-request/request'
 
 const test = new Request()
 

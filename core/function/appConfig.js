@@ -1,7 +1,7 @@
 /**** 此文件说明请看注释 *****/
 // 可以用自己项目的请求方法
 // 请求配置说明：https://ext.dcloud.net.cn/plugin?id=822
-import init from '@/common/config.js';
+import init from '../libs/config.js';
 /**** 结束 *****/
 const platform = uni.getSystemInfoSync().platform;
 

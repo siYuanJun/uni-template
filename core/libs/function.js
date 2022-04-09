@@ -1,9 +1,7 @@
 import {
-    config
-} from '@/common/config'
-import {
     judgePermission
-} from '@/plugins/permission'
+} from '../function/permission'
+import uniCopy from "../js_sdk/xb-copy/uni-copy";
 
 export default {
     handlerDestroyNotifcation(key) {
@@ -18,7 +16,7 @@ export default {
 
     setImgUrl(imgUrl) {
         let newStr = imgUrl.indexOf("http")
-        return newStr == 0 ? imgUrl : (config.$baseUrl + imgUrl)
+        return newStr == 0 ? imgUrl : (uni.$sys.$config.$baseUrl + imgUrl)
     },
 
     // 保存图片
@@ -66,7 +64,7 @@ export default {
      * @param num 上传数量
      * @param callback => res {} 回调
      */
-    uploadImage(num, callback, sourceType) {
+    uploadImageExt(num, callback, sourceType) {
         let sourceTypeNew
         if (sourceType === 1) {
             sourceTypeNew = ['album']
@@ -167,7 +165,6 @@ export default {
                         success: res => {
                             uploadImgCount++;
                             let data = JSON.parse(res.data)
-                            this.dd("上传图片请求", data)
                             callback(data)
                             //如果是最后一张,则隐藏等待中
                             if (uploadImgCount === tempFilePaths.length) {
@@ -175,7 +172,6 @@ export default {
                             }
                         },
                         fail: err => {
-                            this.dd("上传图片请求", err, 2)
                             uni.hideLoading();
                             uni.showModal({
                                 title: '超时提示',
@@ -188,64 +184,6 @@ export default {
                 })
             }
         })
-    },
-
-    /*
-     * 单张加载状态
-     * @param url 图片地址
-     */
-    loadImg(url) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = function() {
-                console.log("一张图片加载完成");
-                resolve(img);
-            };
-            img.onerror = function() {
-                reject(new Error('Could not load image at' + url));
-            };
-            img.src = url;
-        });
-    },
-
-    /*
-     * 图片列表加载状态
-     * @param urls Array 图片列表
-     * @param handler [loadImg]
-     * @param limit Number 数量
-     * @例子：limitLoad(urls, loadImg, 3).then(res => {console.log("图片全部加载完毕"); console.log(res);}).catch(err => {console.error(err);});
-     */
-    limitLoad(urls, handler, limit) {
-        let sequence = [].concat(urls); // 复制urls
-        // 这一步是为了初始化 promises 这个"容器"
-        let promises = sequence.splice(0, limit).map((url, index) => {
-            return handler(url).then(() => {
-                // 返回下标是为了知道数组中是哪一项最先完成
-                return index;
-            });
-        });
-        // 注意这里要将整个变量过程返回，这样得到的就是一个Promise，可以在外面链式调用
-        return sequence
-            .reduce((pCollect, url) => {
-                return pCollect
-                    .then(() => {
-                        return Promise.race(promises); // 返回已经完成的下标
-                    })
-                    .then(fastestIndex => { // 获取到已经完成的下标
-                        // 将"容器"内已经完成的那一项替换
-                        promises[fastestIndex] = handler(url).then(
-                            () => {
-                                return fastestIndex; // 要继续将这个下标返回，以便下一次变量
-                            }
-                        );
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    });
-            }, Promise.resolve()) // 初始化传入
-            .then(() => { // 最后三个用.all来调用
-                return Promise.all(promises);
-            });
     },
 
     // 调试使用
@@ -267,6 +205,7 @@ export default {
             }
         }
     },
+
     // ID元素属性获取
     domExec(fieid, calls) {
         var query = uni.createSelectorQuery();
@@ -369,5 +308,23 @@ export default {
                 }
             );
         }
-    }
+    },
+    copyGet(content) {
+        uniCopy({
+            content: content,
+            success: (res) => {
+                uni.showToast({
+                    title: res,
+                    icon: "none"
+                });
+            },
+            error: (e) => {
+                uni.showToast({
+                    title: e,
+                    icon: "none",
+                    duration: 3000
+                });
+            }
+        });
+    },
 }
