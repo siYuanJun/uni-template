@@ -12,11 +12,11 @@ page, body {
 }
 
 .bg-theme {
-    background-color: #2ACDCA !important;
+    background-color: $uni-color-primary !important;
 }
 
 .text-theme {
-    color: #2ACDCA !important;
+    color: $uni-color-primary !important;
 }
 
 .text-red-FF0000 {
@@ -25,6 +25,10 @@ page, body {
 
 .text-black-222 {
     color: #222222;
+}
+
+.text-black-333 {
+    color: #333333;
 }
 
 .radius-df {
@@ -37,11 +41,6 @@ page, body {
 
 .text-gray-999999 {
     color: #999999;
-}
-
-.icon--df {
-    width: 38upx;
-    height: 38upx;
 }
 
 .bg-yellow {
@@ -59,10 +58,6 @@ page, body {
 
 .text-underline {
     text-decoration: underline
-}
-
-.margin-top-xxl {
-    margin-top: 80upx;
 }
 
 .card-border {
@@ -119,10 +114,6 @@ page, body {
     border: 1px solid $uni-color-theme
 }
 
-.cu-tag.border-theme, .cu-btn.border-theme {
-    background: none;
-}
-
 .bg-gary-f7f7f7 {
     background: #F7F7F7;
 }
@@ -175,47 +166,19 @@ page, body {
 }
 
 .border-gary {
-    border: 1upx solid #607185;
-}
-
-.uni-checkbox-input.uni-checkbox-input-checked {
-    background: #F36B14;
-    border: 1upx solid #F36B14;
-}
-
-.cu-bar.foot, .cu-bar.fixed, .nav.fixed {
-    z-index: 99;
+    border: 1px solid #607185;
 }
 
 .text-line-through {
     text-decoration: line-through
 }
 
-
-uni-swiper .uni-swiper-dot {
-    background-color: rgba(46, 205, 203, 0.4) !important;
-}
-
-uni-swiper .uni-swiper-dot.uni-swiper-dot-active {
-    background-color: rgba(46, 205, 203, 1) !important;
-}
-
 .opacity-50 {
     opacity: .5;
 }
 
-.solid-bottom.last-child:last-child {
-    &::after {
-        opacity: 0;
-    }
-
-    &.padding-bottom {
-        padding-bottom: 0 !important;
-    }
-}
-
-.border-bottom-E3E3E3 {
-    border-bottom: 1px solid #E3E3E3;
+.border-bottom-eaeaea {
+    border-bottom: 1px solid #eaeaea;
 }
 
 .text-black-000 {
@@ -276,14 +239,6 @@ uni-swiper .uni-swiper-dot.uni-swiper-dot-active {
     border-bottom: 1px solid #D8D8D8;
 }
 
-.text-xxxl {
-	font-size: 55upx;
-}
-
-.padding-top-xxl {
-    padding-top: 100upx;
-}
-
 .text-gray-666 {
     color: #666;
 }
@@ -298,4 +253,17 @@ uni-swiper .uni-swiper-dot.uni-swiper-dot-active {
     &:focus {
         border: none !important;
     }
+}
+
+.wh-sm {
+    width: 50upx;
+    height: 50upx;
+}
+
+.bg-blue-267DC5 {
+    background-color: #267DC5;
+}
+
+.bg-blue-60C2D8 {
+    background-color: #60C2D8;
 }

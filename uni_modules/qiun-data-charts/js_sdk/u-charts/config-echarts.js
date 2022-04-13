@@ -324,7 +324,7 @@ const cfe = {
 			"data": [],
 			"radius": "55%",
 			"center": ['50%', '50%'],
-			"rosetype": 'area',
+			"roseType": 'area',
 		},
 	},
 	"funnel": {
