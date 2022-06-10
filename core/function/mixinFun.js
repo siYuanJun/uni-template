@@ -1,46 +1,62 @@
-
 export default {
+    
+    uPickerChange(e, field) {
+        console.log(field, e)
+
+        let item = e.value[0]
+        this.paramForm[field] = item.value
+        this.$set(this.paramForm, '_' + field, item.text)
+
+        this.uPickerClose(field)
+    },
+
+    uPickerDateChange(e, field) {
+        console.log(field, e)
+
+        let time = e.value
+        let date = new Date(time);
+
+        let dateTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+
+        this.paramForm[field] = dateTime
+        console.log(this.paramForm, dateTime)
+
+        this.uPickerClose(field)
+    },
+
+    uPickerClose(field) {
+        this.pickerModel[field] = !this.pickerModel[field]
+    },
+
+    setStaticImage(staticUrl) {
+        let isBug = this.$sys.$config.debug
+
+        return isBug ? staticUrl : (this.$baseUrlStatic + '/static/' + staticUrl)
+    },
+    isLogin() {
+        if(this.getu('userId')) {
+            return true
+        } else {
+            return false
+        }
+    },
     getu(field) {
-        let userinfo = uni.getStorageSync("userInfo") || {};
+        const userinfo = uni.getStorageSync("userInfo") || {};
 
-        return field ? userinfo[field] : userinfo;
-    },
-    getMessage(uid) {
-        if (!this.getu('id')) {
-            return
-        }
+        let user = userinfo.user || {}
+        user.avatar = user.avatar || '/static/images/avatar-1.png'
 
-        if (!uni.getStorageSync('notificationID')) {
-            let notificationID = setInterval(res => {
-                this.getNotificationIndex()
-            }, 5000)
-            console.info("mixin创建消息定时器", notificationID)
-
-            uni.setStorageSync('notificationID', notificationID)
-        }
-    },
-    getNotificationIndex() {
-        this.$tools.requests(this.$routes.api_auth_notification_index, this.paramForm, 'post').then(res => {
-            let data = res.data.data
-            this.messageData = data
-            this.messageNum = data.see_true_num
-            if (this.messageNum) {
-                uni.setTabBarBadge({
-                    index: 2,
-                    text: this.messageNum.toString()
-                });
-            }
-        })
+        return field ? user[field] : user;
     },
     seleChange(e, field) {
-        console.log(e)
+        console.log(field, e)
         let value = e.detail.value
 
         let seleData = this.paramSele[field]
 
-        if(this.paramSele[field]) {
-            this.paramForm[field] = seleData[value].id
-            this.$set(this.paramForm, '_' + field, seleData[value].title)
+        if (this.paramSele[field]) {
+            this.paramForm[field] = seleData[value].value
+            this.$set(this.paramForm, '_' + field, seleData[value].label)
         } else {
             this.paramForm[field] = value
         }
@@ -71,7 +87,7 @@ export default {
         return res < 10 ? '0' + res : res;
     },
     getBirth(birth) {
-        if(birth) {
+        if (birth) {
             let dqbirth = new Date()
             let births = new Date(birth)
             return dqbirth.getFullYear() - births.getFullYear() + '岁'
@@ -79,7 +95,7 @@ export default {
             return ''
         }
     },
-    href(url) {
+    hrefNavigateTo(url) {
         uni.navigateTo({
             url: url,
             fail: (err) => {

@@ -46,6 +46,9 @@ test.interceptor.response((response) => {
 const http = new Request()
 
 http.setConfig((config) => {
+    const token = uni.getStorageSync('userToken');
+    console.log(token)
+    
     /* 设置全局配置 */
     config.baseUrl = '' /* 根域名不同 */
     config.header = {
@@ -65,10 +68,18 @@ http.validateStatus = (response) => {
 }
 
 http.interceptor.request((config, cancel) => {
+    console.log(config)
+    
     /* 请求之前拦截器 */
     const params = {
         token: uni.getStorageSync('userToken')
     }
+    
+    config.header = {
+        ...config.header,
+        'Authori-zation': `Bearer ${params.token}`
+    }
+    
     if (config.method == "GET") {
         config.params = {
             ...config.params,
@@ -110,8 +121,8 @@ http.interceptor.response((res) => {
 
     console.log("当前请求所在页面->", pageUrl, res.config.url)
 
-    switch (res.data.code) {
-        case 1001:
+    switch (res.data.status) {
+        case 410000:
             uni.removeStorageSync("userInfo")
             uni.removeStorageSync('userToken')
 
@@ -128,17 +139,16 @@ http.interceptor.response((res) => {
             break;
     }
 
-    if (res.data.code != 0) {
+    if (res.data.status != 200) {
         if (res.data.msg) {
             uni.showToast({
                 title: res.data.msg,
                 icon: 'none'
             })
-            return
         }
     }
 
-    return res
+    return res.data
 
 }, (res) => { // 请求错误做点什么
     console.log("httpErr-" + res.config.url, res)

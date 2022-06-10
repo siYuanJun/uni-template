@@ -70,13 +70,14 @@
 </script>
 
 <style lang="scss">
-    /*每个页面公共css */
+    @import './uni_modules/uview-ui/index.scss';
+
     @import './components/colorui/main.css';
     @import './components/colorui/icon.css';
     @import './components/colorui/animation.css';
-    @import './static/css/common.scss';
 
-    // #ifndef APP-PLUS-NVUE
-    @import './uni_modules/uview-ui/index.scss';
-    // #endif
+    @import './static/css/u-common.scss';
+    @import './static/css/common.scss';
+    
+    // background-image: linear-gradient(-180deg, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 80%);
 </style>
